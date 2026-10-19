@@ -573,7 +573,7 @@ function saveSubmissionLocally(sub) {
 
 function dispatchSubmissionToEmail(data) {
   try {
-    fetch('https://formsubmit.co/ajax/gopal13007@gmail.com', {
+    fetch('https://formsubmit.co/ajax/tarothealers01@gmail.com', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
