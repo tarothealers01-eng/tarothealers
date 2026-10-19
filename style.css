@@ -740,323 +740,439 @@ section {
 .submit-btn:hover .btn-shimmer { transform: translateX(100%); }
 
 /* ============================================================
-   LOADING OVERLAY
+   ENHANCED CELESTIAL LOADING OVERLAY
    ============================================================ */
 .loading-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 200;
-  background: rgba(6,4,15,0.92);
-  backdrop-filter: blur(10px);
+  z-index: 999;
+  background: radial-gradient(circle at center, rgba(17, 12, 42, 0.98) 0%, rgba(6, 4, 15, 0.98) 100%);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 24px;
 }
-.loading-overlay.active { display: flex; }
-.loading-content { text-align: center; position: relative; }
-.loading-moon {
-  font-size: 4rem;
-  animation: moonSpin 3s linear infinite;
-  display: block;
-  margin-bottom: 30px;
+.loading-overlay.active { display: flex; animation: fadeIn 0.4s ease both; }
+
+.loading-content {
+  text-align: center;
+  position: relative;
+  max-width: 480px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-@keyframes moonSpin {
-  0%   { filter: drop-shadow(0 0 10px var(--violet)); }
-  50%  { filter: drop-shadow(0 0 30px var(--rose)); }
-  100% { filter: drop-shadow(0 0 10px var(--violet)); }
+
+.loading-celestial-orb {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.loading-rings {
+
+.orb-core {
+  font-size: 3rem;
+  color: var(--gold);
+  line-height: 1;
+  z-index: 3;
+  animation: corePulse 2.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 20px var(--gold));
+}
+
+@keyframes corePulse {
+  0%   { transform: scale(0.95); filter: drop-shadow(0 0 15px rgba(245, 200, 66, 0.6)); }
+  100% { transform: scale(1.1); filter: drop-shadow(0 0 35px var(--rose)); }
+}
+
+.orb-rings {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -70%);
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid transparent;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
+  border: 1.5px solid transparent;
 }
-.ring1 { width: 120px; height: 120px; border-top-color: var(--violet); animation: ringRotate 2s linear infinite; }
-.ring2 { width: 160px; height: 160px; border-right-color: var(--rose); animation: ringRotate 3s linear infinite reverse; }
-.ring3 { width: 200px; height: 200px; border-bottom-color: var(--gold); animation: ringRotate 4s linear infinite; }
-@keyframes ringRotate { from { transform: translate(-50%,-50%) rotate(0); } to { transform: translate(-50%,-50%) rotate(360deg); } }
-.loading-text {
+.ring1 { width: 90px; height: 90px; border-top-color: var(--violet); border-bottom-color: rgba(124, 58, 237, 0.3); animation: ringRotate 2s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+.ring2 { width: 125px; height: 125px; border-right-color: var(--rose); border-left-color: rgba(232, 121, 249, 0.3); animation: ringRotate 3.2s linear infinite reverse; }
+.ring3 { width: 155px; height: 155px; border-bottom-color: var(--gold); border-top-color: rgba(245, 200, 66, 0.3); animation: ringRotate 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+.ring4 { width: 180px; height: 180px; border-left-color: var(--teal); border-right-color: transparent; animation: ringRotate 6s linear infinite reverse; }
+
+@keyframes ringRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.orb-stars { position: absolute; inset: 0; pointer-events: none; }
+.l-star {
+  position: absolute;
+  font-size: 0.9rem;
+  color: var(--gold-light);
+  animation: starOrbit 4s ease-in-out infinite alternate;
+}
+.s1 { top: 10px; right: 25px; animation-delay: 0.2s; }
+.s2 { bottom: 20px; right: 15px; animation-delay: 0.8s; color: var(--rose); font-size: 0.75rem; }
+.s3 { bottom: 15px; left: 20px; animation-delay: 1.4s; }
+.s4 { top: 25px; left: 15px; animation-delay: 2s; color: var(--violet-glow); font-size: 0.8rem; }
+
+@keyframes starOrbit {
+  0%   { opacity: 0.3; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.3); }
+}
+
+.loading-title {
   font-family: var(--font-title);
-  font-size: 1.3rem;
+  font-size: clamp(1.3rem, 4vw, 1.6rem);
   color: var(--moonwhite);
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
 }
+
 .loading-sub {
   font-family: var(--font-light);
-  font-size: 0.9rem;
-  color: var(--violet-light);
-  transition: all 0.5s;
+  font-size: 0.95rem;
+  color: var(--violet-glow);
+  margin-bottom: 24px;
+  min-height: 28px;
+  transition: opacity 0.3s ease;
+  line-height: 1.5;
+}
+
+.loading-progress-wrap {
+  width: 100%;
+  max-width: 320px;
+  height: 6px;
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+.loading-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--violet), var(--rose), var(--gold));
+  border-radius: 10px;
+  box-shadow: 0 0 14px var(--violet-glow);
+  transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loading-security-note {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
 }
 
 /* ============================================================
-   RESULTS SECTION
+   SACRED CONFIRMATION & REASSURANCE SECTION
    ============================================================ */
-.results-section {
-  padding: 100px 24px 60px;
-  max-width: 1100px;
+.confirmation-section {
+  padding: 100px 24px 80px;
+  max-width: 920px;
   margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
-.results-header {
+
+.confirmation-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(17, 12, 42, 0.95), rgba(22, 14, 52, 0.98));
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 48px 40px;
+  box-shadow: 0 0 90px rgba(124, 58, 237, 0.35), 0 20px 50px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
   text-align: center;
-  margin-bottom: 60px;
+  animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
-.results-moon {
-  font-size: 3.5rem;
-  margin-bottom: 16px;
-  animation: moonGlow 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 20px var(--violet));
+
+.conf-glow {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 450px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(245, 200, 66, 0.08) 50%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(40px);
 }
-.results-name {
-  font-family: var(--font-title);
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  color: var(--moonwhite);
+
+.conf-badge-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid var(--border-glow);
+  padding: 8px 18px;
+  border-radius: 30px;
   margin-bottom: 24px;
 }
-.signs-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-  margin-top: 20px;
-}
-.sign-badge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  background: rgba(124,58,237,0.15);
-  border: 1px solid var(--border-glow);
-  border-radius: 50px;
+.conf-icon { font-size: 1.2rem; }
+.conf-badge {
   font-family: var(--font-body);
-  font-size: 0.85rem;
-  color: var(--moonwhite);
-}
-.sign-badge .sign-label {
-  color: var(--text-muted);
   font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  color: var(--gold);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
 }
 
-/* Reading Cards */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-bottom: 60px;
-}
-.reading-card {
-  background: linear-gradient(135deg, var(--bg-card), var(--bg-card2));
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 30px 28px;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-  animation: fadeSlideUp 0.6s ease both;
-}
-.reading-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 60px rgba(124,58,237,0.3);
-  border-color: var(--border-glow);
-}
-.reading-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 3px;
-  background: linear-gradient(90deg, var(--violet), var(--rose), var(--gold));
-}
-.card-icon { font-size: 2.2rem; margin-bottom: 16px; }
-.card-label {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  color: var(--violet-light);
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.card-title {
+.conf-title {
   font-family: var(--font-title);
-  font-size: 1.1rem;
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem);
   color: var(--moonwhite);
-  margin-bottom: 14px;
+  line-height: 1.3;
+  margin-bottom: 18px;
 }
-.card-body {
-  font-family: var(--font-light);
-  font-size: 0.92rem;
+
+.conf-intro {
+  font-size: 1.05rem;
   line-height: 1.75;
   color: var(--text-body);
+  max-width: 680px;
+  margin: 0 auto 36px;
 }
-.card-highlight {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 6px 14px;
-  background: rgba(124,58,237,0.2);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  color: var(--violet-glow);
+.conf-intro strong {
+  color: var(--gold-light);
+  font-weight: 500;
 }
 
-/* Tarot Oracle Section */
-.daily-oracle {
-  margin-bottom: 60px;
-}
-.oracle-card {
-  background: linear-gradient(135deg, var(--bg-card), var(--bg-card2));
-  border: 1px solid var(--border-glow);
-  border-radius: var(--radius-lg);
-  padding: 48px;
-  text-align: center;
-  box-shadow: var(--shadow-glow);
-}
-.oracle-icon { font-size: 2rem; margin-bottom: 12px; }
-.oracle-title {
-  font-family: var(--font-title);
-  font-size: 1.2rem;
-  color: var(--moonwhite);
-  margin-bottom: 32px;
-}
-.tarot-card {
-  width: 160px;
-  height: 270px;
-  margin: 0 auto 32px;
-  perspective: 800px;
-}
-.tarot-front {
-  width: 100%; height: 100%;
-  background: linear-gradient(160deg, #1e0a4a, #0d0620);
-  border: 2px solid var(--gold);
-  border-radius: 12px;
+/* Primary Email Promise Alert Box */
+.conf-email-alert {
+  background: linear-gradient(135deg, rgba(30, 18, 68, 0.9) 0%, rgba(20, 12, 48, 0.95) 100%);
+  border: 1.5px solid var(--border-glow);
+  border-radius: 20px;
+  padding: 32px 28px;
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+  text-align: left;
+  margin-bottom: 36px;
+  box-shadow: 0 12px 35px rgba(124, 58, 237, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+.alert-icon-box {
+  width: 58px;
+  height: 58px;
+  border-radius: 16px;
+  background: rgba(124, 58, 237, 0.25);
+  border: 1px solid var(--violet-light);
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  box-shadow: 0 0 40px rgba(245,200,66,0.3), inset 0 0 30px rgba(124,58,237,0.2);
-  position: relative;
-  overflow: hidden;
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.35);
 }
-.tarot-front::before {
-  content: '✦ ✦ ✦';
-  position: absolute;
-  top: 10px;
-  font-size: 0.5rem;
-  color: rgba(245,200,66,0.4);
-  letter-spacing: 4px;
-}
-.tarot-front::after {
-  content: '✦ ✦ ✦';
-  position: absolute;
-  bottom: 10px;
-  font-size: 0.5rem;
-  color: rgba(245,200,66,0.4);
-  letter-spacing: 4px;
-}
-.tarot-symbol { font-size: 3.5rem; }
-.tarot-name {
-  font-family: var(--font-body);
-  font-size: 0.8rem;
-  color: var(--gold);
-  text-align: center;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 0 12px;
-}
-.oracle-message {
-  font-family: var(--font-light);
-  font-size: 1rem;
-  line-height: 1.8;
-  color: var(--text-body);
-  max-width: 500px;
-  margin: 0 auto;
-  font-style: italic;
-}
-
-/* Moon Phase Section */
-.moon-phase-section {
-  text-align: center;
-  padding: 48px;
-  background: linear-gradient(135deg, var(--bg-card), var(--bg-card2));
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  margin-bottom: 40px;
-}
-.moon-phase-title {
+.alert-content h4 {
   font-family: var(--font-title);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--moonwhite);
-  margin-bottom: 28px;
+  margin-bottom: 10px;
+  line-height: 1.35;
 }
-.moon-display {
-  font-size: 5rem;
-  margin-bottom: 20px;
-  animation: moonGlow 3s ease-in-out infinite alternate;
-  filter: drop-shadow(0 0 20px rgba(168,85,247,0.6));
-}
-.moon-meaning {
-  font-family: var(--font-light);
-  font-size: 1rem;
-  line-height: 1.8;
+.alert-content p {
+  font-size: 0.95rem;
   color: var(--text-body);
-  max-width: 500px;
-  margin: 0 auto;
+  line-height: 1.65;
+  margin-bottom: 14px;
 }
-
-/* Affirmation */
-.affirmation-section { margin-bottom: 48px; }
-.affirmation-card {
-  background: linear-gradient(135deg, rgba(124,58,237,0.15), rgba(232,121,249,0.1));
-  border: 1px solid rgba(232,121,249,0.3);
-  border-radius: var(--radius-lg);
-  padding: 48px 36px;
-  text-align: center;
-}
-.affirmation-label {
+.conf-user-email {
+  display: inline-block;
+  background: rgba(124, 58, 237, 0.3);
+  border: 1px solid var(--violet-glow);
+  color: var(--gold-light);
   font-family: var(--font-body);
-  font-size: 0.78rem;
-  letter-spacing: 0.25em;
+  font-size: 1.05rem;
+  padding: 8px 18px;
+  border-radius: 10px;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2);
+  word-break: break-all;
+}
+.conf-delivery-eta {
+  font-size: 0.88rem;
   color: var(--rose);
-  text-transform: uppercase;
-  margin-bottom: 20px;
-}
-.affirmation-text {
-  font-family: var(--font-title);
-  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-  color: var(--moonwhite);
   line-height: 1.5;
-  font-style: italic;
+}
+.conf-delivery-eta strong {
+  color: var(--moonwhite);
+}
+.eta-tip {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 4px;
 }
 
-.new-reading-btn {
+/* Trust Pillars */
+.conf-pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 36px;
+}
+.conf-pillar {
+  background: rgba(13, 8, 32, 0.6);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px 20px;
+  text-align: center;
+  transition: transform 0.3s, border-color 0.3s;
+}
+.conf-pillar:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-glow);
+}
+.pillar-icon {
+  font-size: 1.8rem;
   display: block;
-  margin: 0 auto;
-  padding: 16px 40px;
-  background: transparent;
-  border: 1px solid var(--border-glow);
-  border-radius: 50px;
-  color: var(--violet-light);
+  margin-bottom: 12px;
+}
+.conf-pillar h5 {
   font-family: var(--font-body);
-  font-size: 0.9rem;
-  letter-spacing: 0.12em;
+  font-size: 0.95rem;
+  color: var(--moonwhite);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+.conf-pillar p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* Summary Box */
+.conf-summary-box {
+  background: rgba(10, 6, 26, 0.7);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px 24px;
+  text-align: left;
+  margin-bottom: 32px;
+}
+.summary-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+  padding-bottom: 12px;
+  margin-bottom: 18px;
+}
+.summary-icon { font-size: 1.1rem; }
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 24px;
+}
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.s-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+.s-val {
+  font-size: 0.92rem;
+  color: var(--moonwhite);
+  font-weight: 400;
+}
+
+/* Blessing Quote */
+.conf-blessing {
+  margin-bottom: 36px;
+}
+.conf-blessing p {
+  font-family: var(--font-title);
+  font-size: 1rem;
+  color: var(--rose);
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+}
+
+/* Actions */
+.conf-actions {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.conf-action-btn {
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
   cursor: pointer;
   transition: all 0.3s;
+  border: none;
+  outline: none;
 }
-.new-reading-btn:hover {
-  background: rgba(124,58,237,0.15);
-  border-color: var(--violet);
+.conf-action-btn.primary {
+  background: linear-gradient(135deg, var(--violet), var(--indigo));
   color: var(--moonwhite);
-  box-shadow: 0 0 30px rgba(124,58,237,0.3);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4);
+}
+.conf-action-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(124, 58, 237, 0.6);
+}
+.conf-action-btn.secondary {
+  background: rgba(124, 58, 237, 0.15);
+  border: 1px solid var(--border-glow);
+  color: var(--gold-light);
+}
+.conf-action-btn.secondary:hover {
+  background: rgba(124, 58, 237, 0.3);
+  color: var(--moonwhite);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .confirmation-card { padding: 32px 18px; }
+  .conf-email-alert {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px 18px;
+  }
+  .conf-pillars-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .summary-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .conf-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .conf-action-btn {
+    width: 100%;
+  }
 }
 
 /* ============================================================
@@ -1407,9 +1523,9 @@ section {
     box-sizing: border-box;
   }
 
-  /* Results section */
-  .results-section {
-    padding: 80px 16px 40px;
+  /* Confirmation section */
+  .confirmation-section {
+    padding: 60px 16px 40px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;

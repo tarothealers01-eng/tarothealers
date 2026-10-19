@@ -367,36 +367,56 @@ function renderZodiacGrid() {
   `).join('');
 }
 
-// ── LOADING STEPS ─────────────────────────────────────────────
+// ── LOADING SEQUENCE ──────────────────────────────────────────
 const LOADING_STEPS = [
-  'Calculating your sun sign…',
-  'Consulting the moon\'s position…',
-  'Mapping your birth chart…',
-  'Drawing your tarot card…',
-  'Aligning celestial energies…',
-  'Channeling cosmic wisdom…',
-  'Weaving your personal reading…',
+  '✦ Aligning your celestial coordinates & birth moment…',
+  '✦ Synthesizing planetary aspects & lunar phase…',
+  '✦ Encrypting your sacred details in our confidential vault…',
+  '✦ Alerting our master intuitive healers & astrologers…',
+  '✦ Transmission secured. Preparing your sacred confirmation… ✦',
 ];
 
 function showLoading() {
   const overlay = document.getElementById('loadingOverlay');
   const stepEl = document.getElementById('loadingStep');
+  const bar = document.getElementById('loadingProgressBar');
   overlay.classList.add('active');
+
+  if (bar) bar.style.width = '10%';
+  stepEl.textContent = LOADING_STEPS[0];
   let i = 0;
+  const total = LOADING_STEPS.length;
+
   const interval = setInterval(() => {
-    if (i < LOADING_STEPS.length) {
-      stepEl.textContent = LOADING_STEPS[i++];
+    i++;
+    if (i < total) {
+      stepEl.textContent = LOADING_STEPS[i];
+      if (bar) bar.style.width = `${Math.min(95, ((i + 1) / total) * 100)}%`;
     }
-  }, 400);
+  }, 700);
   return interval;
 }
 
 function hideLoading(interval) {
   clearInterval(interval);
-  document.getElementById('loadingOverlay').classList.remove('active');
+  const bar = document.getElementById('loadingProgressBar');
+  if (bar) bar.style.width = '100%';
+  setTimeout(() => {
+    document.getElementById('loadingOverlay').classList.remove('active');
+  }, 400);
 }
 
 // ── FORM SUBMISSION ───────────────────────────────────────────
+const FOCUS_LABELS = {
+  general: '🌟 General Life Reading',
+  grief: '🕊️ Grief, Loss & Gentle Solace',
+  love: '💖 Love & Relationship Healing',
+  career: '💫 Career & Life Crossroads',
+  closure: '⏳ Closure & Fresh Start',
+  spiritual: '🌙 Spiritual Journey & Awakening',
+  health: '🌿 Emotional Healing & Wellness'
+};
+
 function initForm() {
   const form = document.getElementById('readingForm');
   form.addEventListener('submit', async (e) => {
@@ -426,10 +446,6 @@ function initForm() {
     const sunSign   = getSunSign(month, day);
     const moonSign  = getMoonSign(dob);
     const rising    = getRisingSign(dob, tob);
-    const moonPhase = getMoonPhase(dob);
-    const tarot     = getTarotCard(name, dob);
-    const affirmation = getAffirmation(name + dob);
-    const cards     = getReadingCards(sunSign, type, name);
 
     // Save lead submission
     const submission = {
@@ -455,75 +471,58 @@ function initForm() {
 
     const interval = showLoading();
 
-    // Simulate async processing
-    await new Promise(r => setTimeout(r, 3200));
+    // Cinematic loading sequence
+    await new Promise(r => setTimeout(r, 3600));
     hideLoading(interval);
 
-    renderResults({ name, dob, place, tob, sunSign, moonSign, rising, moonPhase, tarot, affirmation, cards });
+    renderConfirmation({ name, email, dob, tob, place, type, sunSign, moonSign });
   });
 }
 
-// ── RENDER RESULTS ────────────────────────────────────────────
-function renderResults({ name, dob, place, tob, sunSign, moonSign, rising, moonPhase, tarot, affirmation, cards }) {
-  // Hide form section, show results
+// ── RENDER CONFIRMATION & REASSURANCE ─────────────────────────
+function renderConfirmation({ name, email, dob, tob, place, type, sunSign, moonSign }) {
   document.getElementById('form-container').style.display = 'none';
-  const resultsSection = document.getElementById('resultsSection');
-  resultsSection.style.display = 'block';
+  const confSection = document.getElementById('confirmationSection');
+  confSection.style.display = 'block';
 
-  // Header
-  document.getElementById('resultsName').textContent = `${name}'s Celestial Reading`;
+  // Populate personalized client details
+  document.getElementById('confClientName').textContent  = name;
+  document.getElementById('confUserEmail').textContent   = email;
+  document.getElementById('confSummaryName').textContent  = name;
+  document.getElementById('confSummaryEmail').textContent = email;
 
-  // Signs row
-  const signsRow = document.getElementById('signsRow');
-  let signsHTML = `
-    <div class="sign-badge"><span>${sunSign.emoji}</span><span class="sign-label">Sun</span> ${sunSign.name}</div>
-    <div class="sign-badge"><span>${moonSign.emoji}</span><span class="sign-label">Moon</span> ${moonSign.name}</div>
-  `;
-  if (rising) {
-    signsHTML += `<div class="sign-badge"><span>${rising.emoji}</span><span class="sign-label">Rising</span> ${rising.name}</div>`;
-  }
-  signsHTML += `<div class="sign-badge"><span>${moonPhase.emoji}</span><span class="sign-label">Birth Moon</span> ${moonPhase.name}</div>`;
-  signsRow.innerHTML = signsHTML;
+  const formattedDob = formatDate(dob);
+  const timeText = tob ? ` at ${tob}` : ' (Time not provided)';
+  document.getElementById('confSummaryBirth').textContent = `${formattedDob}${timeText}`;
+  document.getElementById('confSummaryPlace').textContent = place;
+  document.getElementById('confSummaryFocus').textContent = FOCUS_LABELS[type] || type;
+  document.getElementById('confSummarySigns').textContent = `${sunSign.emoji} ${sunSign.name} (Sun) · ${moonSign.emoji} ${moonSign.name} (Moon)`;
 
-  // Reading cards
-  const cardsGrid = document.getElementById('cardsGrid');
-  cardsGrid.innerHTML = cards.map((c, i) => `
-    <div class="reading-card reveal" style="animation-delay: ${i * 0.15}s">
-      <div class="card-icon">${c.icon}</div>
-      <div class="card-label">${c.label}</div>
-      <div class="card-title">${c.title}</div>
-      <div class="card-body">${c.body}</div>
-      <span class="card-highlight">${c.highlight}</span>
-    </div>
-  `).join('');
-
-  // Tarot
-  document.getElementById('tarotSymbol').textContent = tarot.symbol;
-  document.getElementById('tarotName').textContent   = tarot.name;
-  document.getElementById('oracleMessage').textContent = tarot.message;
-
-  // Moon phase
-  document.getElementById('moonDisplay').textContent = moonPhase.emoji;
-  document.getElementById('moonMeaning').textContent = moonPhase.meaning;
-
-  // Affirmation
-  document.getElementById('affirmationText').textContent = affirmation;
-
-  // Scroll to results
   setTimeout(() => {
-    resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    confSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     initScrollReveal();
-  }, 100);
+  }, 150);
 }
 
-// ── RESET ─────────────────────────────────────────────────────
-function resetReading() {
-  document.getElementById('resultsSection').style.display = 'none';
+// ── NAVIGATION & RESET HANDLERS ───────────────────────────────
+function resetToHome() {
+  document.getElementById('confirmationSection').style.display = 'none';
+  document.getElementById('form-container').style.display = 'flex';
+  document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
+}
+window.resetToHome = resetToHome;
+
+function resetFormForAnother() {
+  document.getElementById('confirmationSection').style.display = 'none';
   document.getElementById('form-container').style.display = 'flex';
   document.getElementById('readingForm').reset();
   document.getElementById('reading').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(() => {
+    document.getElementById('fullName')?.focus();
+  }, 500);
 }
-window.resetReading = resetReading;
+window.resetFormForAnother = resetFormForAnother;
+window.resetReading = resetFormForAnother;
 
 // ── SELECT GUIDANCE POINT ─────────────────────────────────────
 function selectGuidance(type) {

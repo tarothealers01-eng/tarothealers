@@ -260,52 +260,137 @@
     </div>
   </section>
 
+  <!-- ============================================================
+       ENHANCED CELESTIAL LOADING SCREEN
+       ============================================================ -->
   <div class="loading-overlay" id="loadingOverlay">
     <div class="loading-content">
-      <div class="loading-moon">🌕</div>
-      <div class="loading-rings">
-        <div class="ring ring1"></div>
-        <div class="ring ring2"></div>
-        <div class="ring ring3"></div>
+      <div class="loading-celestial-orb">
+        <div class="orb-core">☽</div>
+        <div class="orb-rings">
+          <div class="ring ring1"></div>
+          <div class="ring ring2"></div>
+          <div class="ring ring3"></div>
+          <div class="ring ring4"></div>
+        </div>
+        <div class="orb-stars">
+          <span class="l-star s1">✦</span>
+          <span class="l-star s2">✧</span>
+          <span class="l-star s3">✦</span>
+          <span class="l-star s4">✧</span>
+        </div>
       </div>
-      <p class="loading-text">The cosmos is aligning…</p>
-      <p class="loading-sub" id="loadingStep">Calculating your sun sign</p>
+      <h3 class="loading-title">Connecting With The Cosmos</h3>
+      <p class="loading-sub" id="loadingStep">Aligning your celestial coordinates…</p>
+      <div class="loading-progress-wrap">
+        <div class="loading-progress-bar" id="loadingProgressBar"></div>
+      </div>
+      <p class="loading-security-note">🔒 Securing and encrypting your sacred birth details</p>
     </div>
   </div>
 
-  <section class="results-section" id="resultsSection" style="display:none;">
-    <div class="results-header">
-      <div class="results-moon">🌕</div>
-      <p class="section-eyebrow" id="resultsEyebrow">✦ Your Cosmic Blueprint ✦</p>
-      <h2 class="results-name" id="resultsName"></h2>
-      <div class="signs-row" id="signsRow"></div>
-    </div>
-    <div class="cards-grid" id="cardsGrid"></div>
-    <div class="daily-oracle" id="dailyOracle">
-      <div class="oracle-card">
-        <div class="oracle-icon">🃏</div>
-        <h3 class="oracle-title">Your Tarot Card of the Day</h3>
-        <div class="tarot-card" id="tarotCard">
-          <div class="tarot-front">
-            <div class="tarot-symbol" id="tarotSymbol"></div>
-            <div class="tarot-name" id="tarotName"></div>
+  <!-- ============================================================
+       SACRED CONFIRMATION & REASSURANCE SECTION
+       ============================================================ -->
+  <section class="confirmation-section" id="confirmationSection" style="display:none;">
+    <div class="confirmation-card">
+      <div class="conf-glow"></div>
+
+      <!-- Top Sacred Badge -->
+      <div class="conf-badge-wrap">
+        <span class="conf-icon">🕊️</span>
+        <span class="conf-badge">✦ Transmission Received &amp; Protected ✦</span>
+      </div>
+
+      <h2 class="conf-title">Your Sacred Details Are<br/><span class="gradient-text">Safely In Our Hands</span></h2>
+
+      <p class="conf-intro">
+        Thank you, <strong id="confClientName">Seeker</strong>. The cosmos has received your intention. Your birth coordinates, questions, and sacred situation have been encrypted and received by our master intuitive healers.
+      </p>
+
+      <!-- Primary Email Promise Callout -->
+      <div class="conf-email-alert">
+        <div class="alert-icon-box">✉️</div>
+        <div class="alert-content">
+          <h4>Your Handcrafted Reading Is Being Prepared</h4>
+          <p>
+            Unlike generic automated horoscopes, our practitioners personally meditate upon your natal chart and situation. Your complete, deeply intuitive reading will be sent directly to:
+          </p>
+          <div class="conf-user-email" id="confUserEmail">your-email@example.com</div>
+          <div class="conf-delivery-eta">
+            <span>⏳ <strong>Expected In Your Inbox:</strong> Within <strong>12 to 24 hours</strong>.</span>
+            <span class="eta-tip">(Please keep an eye on your inbox, promotions, or spam folder)</span>
           </div>
         </div>
-        <p class="oracle-message" id="oracleMessage"></p>
+      </div>
+
+      <!-- Trust & Privacy Pillars -->
+      <div class="conf-pillars-grid">
+        <div class="conf-pillar">
+          <span class="pillar-icon">🔒</span>
+          <h5>100% Confidential</h5>
+          <p>Your name, date of birth, and personal struggles are held in absolute sacred confidentiality.</p>
+        </div>
+        <div class="conf-pillar">
+          <span class="pillar-icon">🕯️</span>
+          <h5>Handcrafted By Healers</h5>
+          <p>Every reading is intuitively authored by our master healers with authentic celestial care.</p>
+        </div>
+        <div class="conf-pillar">
+          <span class="pillar-icon">🤍</span>
+          <h5>Safe Space For Your Soul</h5>
+          <p>Whether navigating grief, heartbreak, or crossroads, your journey is met with unconditional empathy.</p>
+        </div>
+      </div>
+
+      <!-- Submission Summary Box -->
+      <div class="conf-summary-box">
+        <div class="summary-header">
+          <span class="summary-icon">📜</span>
+          <span>Your Submitted Inquiry Summary</span>
+        </div>
+        <div class="summary-grid">
+          <div class="summary-item">
+            <span class="s-label">Client Name</span>
+            <span class="s-val" id="confSummaryName">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="s-label">Email Address</span>
+            <span class="s-val" id="confSummaryEmail">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="s-label">Birth Date &amp; Time</span>
+            <span class="s-val" id="confSummaryBirth">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="s-label">Birth Place</span>
+            <span class="s-val" id="confSummaryPlace">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="s-label">Reading Focus</span>
+            <span class="s-val" id="confSummaryFocus">—</span>
+          </div>
+          <div class="summary-item">
+            <span class="s-label">Cosmic Placements</span>
+            <span class="s-val" id="confSummarySigns">—</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next Steps & Reassurance Blessing -->
+      <div class="conf-blessing">
+        <p>✦ <em>"May starlight bring peace to your spirit while our healers prepare your sacred reading."</em> ✦</p>
+      </div>
+
+      <div class="conf-actions">
+        <button type="button" class="conf-action-btn primary" onclick="resetToHome()">
+          <span>☽ Return to Home</span>
+        </button>
+        <button type="button" class="conf-action-btn secondary" onclick="resetFormForAnother()">
+          <span>Submit Another Reading Request</span>
+        </button>
       </div>
     </div>
-    <div class="moon-phase-section" id="moonPhaseSection">
-      <h3 class="moon-phase-title">Your Birth Moon Phase</h3>
-      <div class="moon-display" id="moonDisplay"></div>
-      <p class="moon-meaning" id="moonMeaning"></p>
-    </div>
-    <div class="affirmation-section">
-      <div class="affirmation-card">
-        <p class="affirmation-label">✦ Your Cosmic Affirmation ✦</p>
-        <p class="affirmation-text" id="affirmationText"></p>
-      </div>
-    </div>
-    <button class="new-reading-btn" onclick="resetReading()">☽ Start a New Reading</button>
   </section>
 
   <section class="about-section" id="about">
