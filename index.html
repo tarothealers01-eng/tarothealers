@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TarotHealers – Personalized Astro Readings</title>
+  <meta name="description" content="Unlock the secrets of the cosmos. Get your personalized astrology reading based on your birth date, time, and place." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600&family=Raleway:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="starCanvas"></canvas>
+  <div class="particles" id="particles"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="moon-icon">☽</span>
+      <span class="brand-name">TarotHealers</span>
+    </div>
+    <div class="nav-links">
+      <a href="#reading">Reading</a>
+      <a href="#about">About</a>
+      <a href="#signs">Signs</a>
+    </div>
+  </nav>
+
+  <section class="hero" id="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="moon-phases">
+        <span>🌑</span><span>🌒</span><span>🌓</span><span>🌔</span><span>🌕</span><span>🌖</span><span>🌗</span><span>🌘</span>
+      </div>
+      <p class="hero-eyebrow">✦ Celestial Guidance Awaits ✦</p>
+      <h1 class="hero-title">
+        Unlock the<br/><span class="gradient-text">Cosmic Secrets</span><br/>of Your Soul
+      </h1>
+      <p class="hero-subtitle">
+        Enter your birth details and let the stars reveal your destiny through personalized astrology readings, moon wisdom, and tarot insights.
+      </p>
+      <a href="#reading" class="cta-btn">
+        <span>Begin Your Reading</span>
+        <span class="btn-glow"></span>
+      </a>
+    </div>
+    <div class="hero-image-wrap">
+      <div class="hero-orb"></div>
+      <img src="moon_hero.jpg" alt="Moon Goddess Celestial Art" class="hero-img" />
+    </div>
+  </section>
+
+  <section class="reading-section" id="reading">
+    <div class="section-header">
+      <p class="section-eyebrow">✦ Your Cosmic Blueprint ✦</p>
+      <h2 class="section-title">Get Your Personalized Reading</h2>
+      <p class="section-subtitle">The cosmos recorded every detail of your arrival. Let us decode it for you.</p>
+    </div>
+    <div class="form-container" id="form-container">
+      <div class="form-card">
+        <div class="form-card-inner">
+          <div class="form-icon">☽</div>
+          <h3 class="form-title">Enter Your Birth Details</h3>
+          <form id="readingForm" novalidate>
+            <div class="input-group">
+              <label for="fullName">Your Full Name</label>
+              <div class="input-wrap">
+                <span class="input-icon">✦</span>
+                <input type="text" id="fullName" name="fullName" placeholder="e.g. Luna Celestia" required autocomplete="name" />
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="input-group">
+                <label for="dob">Date of Birth</label>
+                <div class="input-wrap">
+                  <span class="input-icon">📅</span>
+                  <input type="date" id="dob" name="dob" required />
+                </div>
+              </div>
+              <div class="input-group">
+                <label for="tob">Time of Birth</label>
+                <div class="input-wrap">
+                  <span class="input-icon">🕐</span>
+                  <input type="time" id="tob" name="tob" />
+                  <span class="optional-tag">optional</span>
+                </div>
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="birthplace">Birth Place</label>
+              <div class="input-wrap">
+                <span class="input-icon">🌍</span>
+                <input type="text" id="birthplace" name="birthplace" placeholder="e.g. Mumbai, India" required autocomplete="off" />
+              </div>
+            </div>
+            <div class="input-group">
+              <label for="readingType">Reading Focus</label>
+              <div class="input-wrap select-wrap">
+                <span class="input-icon">🔮</span>
+                <select id="readingType" name="readingType">
+                  <option value="general">🌟 General Life Reading</option>
+                  <option value="love">💖 Love &amp; Relationships</option>
+                  <option value="career">💫 Career &amp; Purpose</option>
+                  <option value="spiritual">🌙 Spiritual Journey</option>
+                  <option value="health">🌿 Health &amp; Wellness</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-error" id="formError"></div>
+            <button type="submit" class="submit-btn" id="submitBtn">
+              <span class="btn-text">Reveal My Reading</span>
+              <span class="btn-stars">✦ ✦ ✦</span>
+              <div class="btn-shimmer"></div>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="loading-content">
+      <div class="loading-moon">🌕</div>
+      <div class="loading-rings">
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <div class="ring ring3"></div>
+      </div>
+      <p class="loading-text">The cosmos is aligning…</p>
+      <p class="loading-sub" id="loadingStep">Calculating your sun sign</p>
+    </div>
+  </div>
+
+  <section class="results-section" id="resultsSection" style="display:none;">
+    <div class="results-header">
+      <div class="results-moon">🌕</div>
+      <p class="section-eyebrow" id="resultsEyebrow">✦ Your Cosmic Blueprint ✦</p>
+      <h2 class="results-name" id="resultsName"></h2>
+      <div class="signs-row" id="signsRow"></div>
+    </div>
+    <div class="cards-grid" id="cardsGrid"></div>
+    <div class="daily-oracle" id="dailyOracle">
+      <div class="oracle-card">
+        <div class="oracle-icon">🃏</div>
+        <h3 class="oracle-title">Your Tarot Card of the Day</h3>
+        <div class="tarot-card" id="tarotCard">
+          <div class="tarot-front">
+            <div class="tarot-symbol" id="tarotSymbol"></div>
+            <div class="tarot-name" id="tarotName"></div>
+          </div>
+        </div>
+        <p class="oracle-message" id="oracleMessage"></p>
+      </div>
+    </div>
+    <div class="moon-phase-section" id="moonPhaseSection">
+      <h3 class="moon-phase-title">Your Birth Moon Phase</h3>
+      <div class="moon-display" id="moonDisplay"></div>
+      <p class="moon-meaning" id="moonMeaning"></p>
+    </div>
+    <div class="affirmation-section">
+      <div class="affirmation-card">
+        <p class="affirmation-label">✦ Your Cosmic Affirmation ✦</p>
+        <p class="affirmation-text" id="affirmationText"></p>
+      </div>
+    </div>
+    <button class="new-reading-btn" onclick="resetReading()">☽ Start a New Reading</button>
+  </section>
+
+  <section class="about-section" id="about">
+    <div class="about-grid">
+      <div class="about-image-wrap">
+        <img src="zodiac_wheel.jpg" alt="Celestial Zodiac Wheel" class="about-img" />
+        <div class="about-img-glow"></div>
+      </div>
+      <div class="about-content">
+        <p class="section-eyebrow">✦ Our Craft ✦</p>
+        <h2 class="section-title">Ancient Wisdom,<br/>Modern Clarity</h2>
+        <p class="about-text">TarotHealers bridges the mystical traditions of Vedic and Western astrology with the intuitive art of tarot to deliver readings that are as accurate as they are enlightening.</p>
+        <p class="about-text">Every soul arrives at a precise cosmic moment. The positions of the sun, moon, and planets at your birth create a unique celestial fingerprint — your natal chart — that speaks to your core personality, life path, and soul purpose.</p>
+        <div class="about-features">
+          <div class="feature-item">
+            <span class="feature-icon">🌙</span>
+            <div>
+              <strong>Moon Wisdom</strong>
+              <p>Understand your emotional landscape through your natal moon sign and current lunar energies.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">⭐</span>
+            <div>
+              <strong>Sun Sign Mastery</strong>
+              <p>Discover the full depth of your solar essence beyond your birth date.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">🔮</span>
+            <div>
+              <strong>Tarot Integration</strong>
+              <p>Daily tarot guidance aligned with your astrological energies for precise insights.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="signs-section" id="signs">
+    <div class="section-header">
+      <p class="section-eyebrow">✦ The Twelve Signs ✦</p>
+      <h2 class="section-title">Children of the Cosmos</h2>
+    </div>
+    <div class="signs-grid" id="signsGrid"></div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-moon">☽ 🌕 ☾</div>
+    <p class="footer-brand">TarotHealers</p>
+    <p class="footer-tagline">Guided by the stars. Grounded in truth.</p>
+    <div class="footer-links">
+      <a href="#reading">Get a Reading</a>
+      <a href="#about">About</a>
+      <a href="#signs">Zodiac Signs</a>
+    </div>
+    <p class="footer-copy">© 2026 TarotHealers. All celestial rights reserved.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
