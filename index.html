@@ -17,9 +17,9 @@
   <nav class="navbar" id="navbar">
     <div class="nav-brand">
       <span class="moon-icon">☽</span>
-      <span class="brand-name">TarotHealers</span>
     </div>
     <div class="nav-links">
+      <a href="#healing">Healing</a>
       <a href="#reading">Reading</a>
       <a href="#about">About</a>
       <a href="#signs">Signs</a>
@@ -47,6 +47,139 @@
     <div class="hero-image-wrap">
       <div class="hero-orb"></div>
       <img src="moon_hero.jpg" alt="Moon Goddess Celestial Art" class="hero-img" />
+    </div>
+  </section>
+
+  <!-- ============================================================
+       HEALING SANCTUARY / WHEN TO SEEK GUIDANCE SECTION
+       ============================================================ -->
+  <section class="healing-section" id="healing">
+    <div class="healing-glow"></div>
+    <div class="section-header">
+      <p class="section-eyebrow">✦ Sacred Space For Healing ✦</p>
+      <h2 class="section-title">Whatever You Are Carrying,<br/><span class="gradient-text">You Are Not Alone</span></h2>
+      <p class="section-subtitle">
+        Life brings profound chapters of grief, heartbreak, and overwhelming crossroads. The cosmos does not judge your pain — it holds a gentle mirror of truth, solace, and renewal.
+      </p>
+    </div>
+
+    <div class="healing-grid">
+      <!-- Point 1: Grief & Loss -->
+      <div class="healing-card" onclick="selectGuidance('grief')">
+        <div class="healing-card-glow"></div>
+        <div class="healing-card-header">
+          <span class="healing-icon">🕊️</span>
+          <span class="healing-badge">Gentle Solace</span>
+        </div>
+        <h3 class="healing-title">Recently Lost Someone Dear</h3>
+        <p class="healing-tagline">Navigating bereavement, quiet ache &amp; honoring sacred bonds</p>
+        <p class="healing-desc">
+          When grief is raw, the world moves too fast. We create a reverent, tender space to honor your loved one's continuing spiritual presence, comfort your aching heart, and remind you that love is eternal starlight that never fades.
+        </p>
+        <div class="healing-cta">
+          <span>Seek Grief &amp; Peace Reading</span>
+          <span class="arrow">✦</span>
+        </div>
+      </div>
+
+      <!-- Point 2: Relationship Struggles -->
+      <div class="healing-card" onclick="selectGuidance('love')">
+        <div class="healing-card-glow"></div>
+        <div class="healing-card-header">
+          <span class="healing-icon">💔</span>
+          <span class="healing-badge">Heart Clarity</span>
+        </div>
+        <h3 class="healing-title">Struggling in Relationships</h3>
+        <p class="healing-tagline">Heartbreak, trust erosion, mixed signals &amp; painful choices</p>
+        <p class="healing-desc">
+          Whether you're healing from a painful breakup, questioning a partner's devotion, or feeling unseen in love — uncover the underlying energetic patterns, release emotional exhaustion, and align with the deep devotion you deserve.
+        </p>
+        <div class="healing-cta">
+          <span>Heal Your Heart &amp; Connection</span>
+          <span class="arrow">✦</span>
+        </div>
+      </div>
+
+      <!-- Point 3: Feeling Lost & Life Crossroads -->
+      <div class="healing-card" onclick="selectGuidance('career')">
+        <div class="healing-card-glow"></div>
+        <div class="healing-card-header">
+          <span class="healing-icon">🧭</span>
+          <span class="healing-badge">Soul Direction</span>
+        </div>
+        <h3 class="healing-title">Feeling Lost at a Crossroads</h3>
+        <p class="healing-tagline">Unclear path, paralyzing doubt &amp; seeking true purpose</p>
+        <p class="healing-desc">
+          When you feel disconnected from your career or unsure of where your life is heading, cosmic alignment reveals your dormant gifts, helps you navigate career crossroads, and illuminates the next step forward with unshakeable clarity.
+        </p>
+        <div class="healing-cta">
+          <span>Illuminate Your True Path</span>
+          <span class="arrow">✦</span>
+        </div>
+      </div>
+
+      <!-- Point 4: Emotional Burnout & Anxiety -->
+      <div class="healing-card" onclick="selectGuidance('health')">
+        <div class="healing-card-glow"></div>
+        <div class="healing-card-header">
+          <span class="healing-icon">🌊</span>
+          <span class="healing-badge">Inner Sanctuary</span>
+        </div>
+        <h3 class="healing-title">Emotional Burnout &amp; Anxiety</h3>
+        <p class="healing-tagline">Silent heaviness, racing thoughts &amp; energy depletion</p>
+        <p class="healing-desc">
+          Absorbing everyone else's emotions leaves your spirit depleted. Receive tailored lunar guidance to calm your nervous system, reset your energetic boundaries, and rediscover tranquil ground within yourself.
+        </p>
+        <div class="healing-cta">
+          <span>Restore Inner Peace &amp; Calm</span>
+          <span class="arrow">✦</span>
+        </div>
+      </div>
+
+      <!-- Point 5: Seeking Closure -->
+      <div class="healing-card" onclick="selectGuidance('closure')">
+        <div class="healing-card-glow"></div>
+        <div class="healing-card-header">
+          <span class="healing-icon">⏳</span>
+          <span class="healing-badge">Sacred Release</span>
+        </div>
+        <h3 class="healing-title">Seeking Closure &amp; Letting Go</h3>
+        <p class="healing-tagline">Unanswered questions, past regrets &amp; breaking old cycles</p>
+        <p class="healing-desc">
+          When circumstances never gave you an apology or explanation, the soul can remain trapped in 'what if'. Learn how to grant yourself divine closure, break toxic karmic loops, and reclaim your peace.
+        </p>
+        <div class="healing-cta">
+          <span>Find True Soul Closure</span>
+          <span class="arrow">✦</span>
+        </div>
+      </div>
+
+      <!-- Point 6: Spiritual Awakening -->
+      <div class="healing-card" onclick="selectGuidance('spiritual')">
+        <div class="healing-card-glow"></div>
+        <div class="healing-card-header">
+          <span class="healing-icon">🌙</span>
+          <span class="healing-badge">Divine Calling</span>
+        </div>
+        <h3 class="healing-title">Spiritual Awakening &amp; Shifts</h3>
+        <p class="healing-tagline">Sudden intuitive awakenings, synchronicities &amp; inner shifts</p>
+        <p class="healing-desc">
+          Outgrowing old spaces and feeling called to something deeper? Decode the celestial signs around you, strengthen your innate intuitive gifts, and step into alignment with your highest spiritual timeline.
+        </p>
+        <div class="healing-cta">
+          <span>Deepen Your Spiritual Journey</span>
+          <span class="arrow">✦</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empathetic Note Banner -->
+    <div class="healing-banner">
+      <div class="healing-banner-content">
+        <span class="banner-star">✦</span>
+        <p>No matter where you find yourself today, every reading is handled with absolute confidentiality, zero judgment, and pure sacred compassion.</p>
+        <span class="banner-star">✦</span>
+      </div>
     </div>
   </section>
 
@@ -99,10 +232,12 @@
                 <span class="input-icon">🔮</span>
                 <select id="readingType" name="readingType">
                   <option value="general">🌟 General Life Reading</option>
-                  <option value="love">💖 Love &amp; Relationships</option>
-                  <option value="career">💫 Career &amp; Purpose</option>
-                  <option value="spiritual">🌙 Spiritual Journey</option>
-                  <option value="health">🌿 Health &amp; Wellness</option>
+                  <option value="grief">🕊️ Grief, Loss &amp; Gentle Solace</option>
+                  <option value="love">💖 Love &amp; Relationship Healing</option>
+                  <option value="career">💫 Career &amp; Life Crossroads</option>
+                  <option value="closure">⏳ Closure &amp; Fresh Start</option>
+                  <option value="spiritual">🌙 Spiritual Journey &amp; Awakening</option>
+                  <option value="health">🌿 Emotional Healing &amp; Wellness</option>
                 </select>
               </div>
             </div>
@@ -217,6 +352,7 @@
     <p class="footer-brand">TarotHealers</p>
     <p class="footer-tagline">Guided by the stars. Grounded in truth.</p>
     <div class="footer-links">
+      <a href="#healing">Healing Sanctuary</a>
       <a href="#reading">Get a Reading</a>
       <a href="#about">About</a>
       <a href="#signs">Zodiac Signs</a>

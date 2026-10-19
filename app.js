@@ -156,6 +156,26 @@ const READINGS = {
       destiny: (sign) => `Your greatest health achievement will be mastering the art of listening to your body's subtle intelligence. When you learn to honor its wisdom before it reaches crisis, you will unlock a level of vitality and aliveness that transforms every area of your life.`,
     }
   },
+  grief: {
+    sections: ['Sacred Comfort', 'Spiritual Bond', 'Present Healing Energy', 'Messages of Peace'],
+    icons: ['🕊️', '🤍', '🕯️', '🌸'],
+    templates: {
+      personality: (sign) => `In moments of profound loss, your ${sign.name} spirit experiences grief through its deep ${sign.element} nature. Your soul loves with authenticity and permanence, and therefore the pain of absence is a testament to the depth of your devotion. Give yourself permission to mourn gently — grief has no timeline, and your heart is honoring a sacred connection.`,
+      lifePath: (sign) => `The celestial bond you shared transcends the physical realm. Ruled by ${sign.ruler}, your soul carries an enduring spiritual bridge connecting you to those who have crossed over. Their energy, memories, and blessings continue to surround you like starlight in the night sky.`,
+      energy: (sign) => `Current lunar and cosmic energies bring a protective sanctuary of peace around your heart. When waves of sadness arrive, wrap yourself in warmth and breathe deeply. You are being cosmically comforted, and the love between your souls remains unbroken across dimensions.`,
+      destiny: (sign) => `Your healing path leads toward a gentle, radiant peace. As a ${sign.name}, your innate ${sign.trait.toLowerCase()} will slowly re-emerge, carrying their legacy forward as a living, breathing light. You will love again, laugh again, and forever carry their star within you.`,
+    }
+  },
+  closure: {
+    sections: ['Releasing the Past', 'Sacred Truth', 'Present Clarity', 'Fresh Horizon'],
+    icons: ['⏳', '🗝️', '🌅', '🦋'],
+    templates: {
+      personality: (sign) => `Your ${sign.name} essence has carried unanswered questions, unsaid words, and emotional replay for long enough. Governed by ${sign.ruler}, you have a profound nature that sometimes seeks closure from people incapable of giving it. Today, the cosmos gives you permission to grant closure to yourself.`,
+      lifePath: (sign) => `Every painful ending in your journey was a cosmic redirection. What felt like an abrupt loss was the universe lovingly removing what could not accompany you into your highest timeline. The karmic cycle has completed its sacred lesson.`,
+      energy: (sign) => `A powerful wave of planetary release is flowing through your chart. The heaviness in your chest is dissipating as you release the need to understand why things happened. You are stepping into clear, sovereign emotional freedom.`,
+      destiny: (sign) => `Your future is vast and unburdened. By choosing self-forgiveness and releasing old hurt, you step into your true power as a ${sign.trait.toLowerCase()} soul. An extraordinary new chapter is clearing space to begin right now.`,
+    }
+  },
 };
 
 // ── AFFIRMATIONS ──────────────────────────────────────────────
@@ -236,7 +256,7 @@ function formatDate(dobStr) {
 }
 
 function getReadingCards(sunSign, readingType, name) {
-  const r = READINGS[readingType];
+  const r = READINGS[readingType] || READINGS.general;
   const tmpl = r.templates;
   return [
     { icon: r.icons[0], label: r.sections[0], title: `${sunSign.name}: ${sunSign.trait}`, body: tmpl.personality(sunSign), highlight: `Element: ${sunSign.element.charAt(0).toUpperCase() + sunSign.element.slice(1)} · Ruler: ${sunSign.ruler}` },
@@ -321,7 +341,7 @@ function initNavbar() {
 
 // ── SCROLL REVEAL ─────────────────────────────────────────────
 function initScrollReveal() {
-  const els = document.querySelectorAll('.reading-card, .sign-card, .feature-item, .about-content, .about-image-wrap, .oracle-card, .moon-phase-section, .affirmation-card');
+  const els = document.querySelectorAll('.reading-card, .sign-card, .feature-item, .about-content, .about-image-wrap, .oracle-card, .moon-phase-section, .affirmation-card, .healing-card');
   els.forEach(el => el.classList.add('reveal'));
 
   const obs = new IntersectionObserver((entries) => {
@@ -477,6 +497,29 @@ function resetReading() {
   document.getElementById('reading').scrollIntoView({ behavior: 'smooth' });
 }
 window.resetReading = resetReading;
+
+// ── SELECT GUIDANCE POINT ─────────────────────────────────────
+function selectGuidance(type) {
+  const select = document.getElementById('readingType');
+  if (select && type) {
+    select.value = type;
+  }
+  const readingSec = document.getElementById('reading');
+  if (readingSec) {
+    readingSec.scrollIntoView({ behavior: 'smooth' });
+    const formCard = document.querySelector('.form-card');
+    if (formCard) {
+      formCard.classList.remove('form-highlight');
+      void formCard.offsetWidth;
+      formCard.classList.add('form-highlight');
+    }
+    const nameInput = document.getElementById('fullName');
+    if (nameInput) {
+      setTimeout(() => nameInput.focus(), 500);
+    }
+  }
+}
+window.selectGuidance = selectGuidance;
 
 // ── INIT ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {

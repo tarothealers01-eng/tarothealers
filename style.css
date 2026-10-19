@@ -329,6 +329,220 @@ section { position: relative; z-index: 2; }
 }
 
 /* ============================================================
+   HEALING SANCTUARY SECTION
+   ============================================================ */
+.healing-section {
+  padding: 100px 24px 80px;
+  position: relative;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.healing-glow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 700px;
+  height: 500px;
+  background: radial-gradient(ellipse at center, rgba(124, 58, 237, 0.16) 0%, rgba(232, 121, 249, 0.08) 40%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.healing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 50px;
+}
+
+.healing-card {
+  position: relative;
+  background: linear-gradient(145deg, rgba(17, 12, 42, 0.85) 0%, rgba(22, 14, 52, 0.75) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 34px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+}
+
+.healing-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--border-glow);
+  background: linear-gradient(145deg, rgba(22, 14, 52, 0.95) 0%, rgba(32, 18, 70, 0.85) 100%);
+  box-shadow: 0 20px 50px rgba(124, 58, 237, 0.32), 0 0 24px rgba(168, 85, 247, 0.2);
+}
+
+.healing-card-glow {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.25), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.healing-card:hover .healing-card-glow {
+  opacity: 1;
+  transform: scale(1.4);
+}
+
+.healing-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.healing-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(124, 58, 237, 0.16);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.2);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background 0.3s;
+}
+
+.healing-card:hover .healing-icon {
+  transform: scale(1.12) rotate(4deg);
+  background: rgba(124, 58, 237, 0.28);
+  border-color: var(--violet-light);
+}
+
+.healing-badge {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  background: rgba(245, 200, 66, 0.12);
+  border: 1px solid rgba(245, 200, 66, 0.3);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.healing-title {
+  font-family: var(--font-title);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--moonwhite);
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.healing-tagline {
+  font-size: 0.82rem;
+  color: var(--rose);
+  margin-bottom: 16px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.healing-desc {
+  font-size: 0.92rem;
+  color: var(--text-body);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.healing-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  border-top: 1px solid rgba(124, 58, 237, 0.2);
+  padding-top: 16px;
+  transition: color 0.3s ease;
+}
+
+.healing-cta .arrow {
+  font-size: 0.85rem;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s;
+}
+
+.healing-card:hover .healing-cta {
+  color: var(--moonwhite);
+}
+
+.healing-card:hover .healing-cta .arrow {
+  transform: translateX(6px);
+  color: var(--gold-light);
+}
+
+.healing-banner {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2px;
+  border-radius: 50px;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.4), rgba(245, 200, 66, 0.4), rgba(232, 121, 249, 0.4));
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.2);
+}
+
+.healing-banner-content {
+  background: rgba(13, 8, 32, 0.92);
+  backdrop-filter: blur(12px);
+  border-radius: 48px;
+  padding: 16px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.healing-banner-content p {
+  font-size: 0.9rem;
+  color: var(--moonwhite);
+  line-height: 1.6;
+}
+
+.banner-star {
+  color: var(--gold);
+  font-size: 0.9rem;
+  animation: starTwinkle 2s ease-in-out infinite alternate;
+}
+
+@keyframes starTwinkle {
+  0% { opacity: 0.4; transform: scale(0.9); }
+  100% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes formGlowPulse {
+  0% { box-shadow: var(--shadow-glow); border-color: var(--border-glow); }
+  40% { box-shadow: 0 0 70px rgba(168, 85, 247, 0.85), 0 0 30px rgba(245, 200, 66, 0.6); border-color: var(--gold); }
+  100% { box-shadow: var(--shadow-glow); border-color: var(--border-glow); }
+}
+
+.form-card.form-highlight {
+  animation: formGlowPulse 1.8s ease-out;
+}
+
+/* ============================================================
    READING FORM SECTION
    ============================================================ */
 .reading-section {
@@ -1011,6 +1225,8 @@ section { position: relative; z-index: 2; }
   .about-grid { grid-template-columns: 1fr; gap: 48px; }
   .about-section { padding: 80px 30px; }
   .signs-grid { grid-template-columns: repeat(3, 1fr); }
+  .healing-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .healing-section { padding: 80px 24px 60px; }
 }
 
 /* ============================================================
@@ -1042,4 +1258,8 @@ section { position: relative; z-index: 2; }
   .results-section { padding: 80px 16px 40px; }
 
   .cards-grid { grid-template-columns: 1fr; }
+  .healing-grid { grid-template-columns: 1fr; gap: 18px; }
+  .healing-section { padding: 60px 16px 40px; }
+  .healing-card { padding: 26px 20px 20px; }
+  .healing-banner-content { padding: 14px 20px; flex-direction: column; gap: 8px; }
 }
