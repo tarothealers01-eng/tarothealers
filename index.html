@@ -202,6 +202,13 @@
                 <input type="text" id="fullName" name="fullName" placeholder="e.g. Luna Celestia" required autocomplete="name" />
               </div>
             </div>
+            <div class="input-group">
+              <label for="email">Your Email Address <span class="required-tag">*</span></label>
+              <div class="input-wrap">
+                <span class="input-icon">✉️</span>
+                <input type="email" id="email" name="email" placeholder="e.g. luna@example.com" required autocomplete="email" />
+              </div>
+            </div>
             <div class="input-row">
               <div class="input-group">
                 <label for="dob">Date of Birth</label>
@@ -357,8 +364,123 @@
       <a href="#about">About</a>
       <a href="#signs">Zodiac Signs</a>
     </div>
-    <p class="footer-copy">© 2026 TarotHealers. All celestial rights reserved.</p>
+    <p class="footer-copy">© 2026 TarotHealers. All celestial rights reserved. <span id="adminSecretTrigger" class="secret-trigger" title="Admin Sanctuary">✦</span></p>
   </footer>
+
+  <!-- ============================================================
+       HIDDEN ADMIN PORTAL (SECURE VAULT)
+       ============================================================ -->
+  <!-- Admin Passcode Modal -->
+  <div class="admin-modal" id="adminAuthModal" style="display:none;">
+    <div class="admin-modal-backdrop" onclick="closeAdminAuth()"></div>
+    <div class="admin-card auth-card">
+      <div class="admin-card-header">
+        <span class="admin-badge">✦ Sacred Vault ✦</span>
+        <button type="button" class="admin-close-btn" onclick="closeAdminAuth()">✕</button>
+      </div>
+      <div class="auth-icon">🗝️</div>
+      <h3 class="admin-title">Admin Access</h3>
+      <p class="admin-subtitle">Enter your secret key to view all client reading submissions.</p>
+      <form id="adminAuthForm" onsubmit="handleAdminLogin(event)">
+        <div class="input-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="adminPasscode" placeholder="Enter Admin Passcode" required autocomplete="current-password" />
+        </div>
+        <div class="admin-error" id="adminAuthError"></div>
+        <button type="submit" class="admin-btn primary-btn">
+          <span>Unlock Submissions</span>
+          <span class="arrow">✦</span>
+        </button>
+      </form>
+      <p class="admin-auth-hint">Default key: <code>tarot2026</code> (can be changed in settings)</p>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard Modal -->
+  <div class="admin-modal" id="adminDashboardModal" style="display:none;">
+    <div class="admin-modal-backdrop" onclick="closeAdminDashboard()"></div>
+    <div class="admin-card dashboard-card">
+      <div class="admin-dashboard-header">
+        <div class="dashboard-title-wrap">
+          <span class="moon-badge">☽</span>
+          <div>
+            <h2 class="dashboard-title">Client Submissions Archive</h2>
+            <p class="dashboard-subtitle">Direct access to all submitted birth details &amp; contact info</p>
+          </div>
+        </div>
+        <div class="dashboard-actions">
+          <button type="button" class="admin-btn secondary-btn" onclick="exportSubmissionsCSV()">
+            <span>📥 Export CSV</span>
+          </button>
+          <button type="button" class="admin-btn danger-btn" onclick="clearAllSubmissions()">
+            <span>🗑️ Clear All</span>
+          </button>
+          <button type="button" class="admin-close-btn" onclick="closeAdminDashboard()" title="Close Portal">✕</button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics -->
+      <div class="admin-stats-row">
+        <div class="stat-card">
+          <div class="stat-num" id="statTotalSubmissions">0</div>
+          <div class="stat-label">Total Submissions</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statTodaySubmissions">0</div>
+          <div class="stat-label">Today's Leads</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="statTopFocus">—</div>
+          <div class="stat-label">Top Focus Category</div>
+        </div>
+      </div>
+
+      <!-- Search & Notice -->
+      <div class="admin-toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="adminSearchInput" placeholder="Filter by name, email, place, or reading type..." oninput="filterSubmissionsTable()" />
+        </div>
+        <div class="admin-notice">
+          <span>📧 Live email forwarding active: <strong>gopal13007@gmail.com</strong></span>
+        </div>
+      </div>
+
+      <!-- Submissions Table Container -->
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="adminTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Submitted At</th>
+              <th>Client Name</th>
+              <th>Email Address</th>
+              <th>Date of Birth</th>
+              <th>Time</th>
+              <th>Birth Place</th>
+              <th>Reading Focus</th>
+              <th>Sun / Moon</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+        <div class="admin-empty-state" id="adminEmptyState" style="display:none;">
+          <div class="empty-icon">🌙</div>
+          <h4>No Submissions Stored Yet</h4>
+          <p>When visitors fill out the reading form, their details will instantly appear here.</p>
+        </div>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="admin-dashboard-footer">
+        <span class="footer-tip">💡 Fast access: Triple-click the top moon logo ☽ or visit <code>your-domain.com/#admin</code></span>
+        <button type="button" class="admin-logout-link" onclick="adminLogout()">Lock Vault</button>
+      </div>
+    </div>
+  </div>
 
   <script src="app.js"></script>
 </body>

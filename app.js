@@ -403,6 +403,7 @@ function initForm() {
     e.preventDefault();
 
     const name      = document.getElementById('fullName').value.trim();
+    const email     = document.getElementById('email').value.trim();
     const dob       = document.getElementById('dob').value;
     const tob       = document.getElementById('tob').value;
     const place     = document.getElementById('birthplace').value.trim();
@@ -410,15 +411,13 @@ function initForm() {
     const errEl     = document.getElementById('formError');
 
     if (!name) { errEl.textContent = '✦ Please enter your name'; return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = '✦ Please enter a valid email address';
+      return;
+    }
     if (!dob)  { errEl.textContent = '✦ Please enter your date of birth'; return; }
     if (!place){ errEl.textContent = '✦ Please enter your birth place'; return; }
     errEl.textContent = '';
-
-    const interval = showLoading();
-
-    // Simulate async processing
-    await new Promise(r => setTimeout(r, 3200));
-    hideLoading(interval);
 
     const dobDate   = new Date(dob + 'T00:00:00');
     const month     = dobDate.getMonth() + 1;
@@ -431,6 +430,34 @@ function initForm() {
     const tarot     = getTarotCard(name, dob);
     const affirmation = getAffirmation(name + dob);
     const cards     = getReadingCards(sunSign, type, name);
+
+    // Save lead submission
+    const submission = {
+      id: 'lead_' + Date.now(),
+      timestamp: new Date().toISOString(),
+      dateFormatted: new Date().toLocaleString('en-US', {
+        month: 'short', day: 'numeric', year: 'numeric',
+        hour: 'numeric', minute: '2-digit', hour12: true
+      }),
+      name,
+      email,
+      dob,
+      tob: tob || 'Not provided',
+      place,
+      type,
+      sunSign: sunSign.name,
+      moonSign: moonSign.name,
+      rising: rising ? rising.name : 'Unknown'
+    };
+
+    saveSubmissionLocally(submission);
+    dispatchSubmissionToEmail(submission);
+
+    const interval = showLoading();
+
+    // Simulate async processing
+    await new Promise(r => setTimeout(r, 3200));
+    hideLoading(interval);
 
     renderResults({ name, dob, place, tob, sunSign, moonSign, rising, moonPhase, tarot, affirmation, cards });
   });
@@ -521,6 +548,286 @@ function selectGuidance(type) {
 }
 window.selectGuidance = selectGuidance;
 
+// ── SUBMISSION STORAGE & DISPATCH ─────────────────────────────
+const STORAGE_KEY = 'tarothealers_client_submissions';
+const PASSCODE_KEY = 'tarothealers_vault_passcode';
+const DEFAULT_PASSCODE = 'tarot2026';
+
+function getStoredSubmissions() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveSubmissionLocally(sub) {
+  try {
+    const list = getStoredSubmissions();
+    list.unshift(sub);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  } catch (e) {
+    console.error('Storage error', e);
+  }
+}
+
+function dispatchSubmissionToEmail(data) {
+  try {
+    fetch('https://formsubmit.co/ajax/gopal13007@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        _subject: `🔮 New Tarot Reading Lead: ${data.name} (${data.type})`,
+        _template: 'table',
+        _captcha: 'false',
+        'Client Name': data.name,
+        'Email Address': data.email,
+        'Date of Birth': data.dob,
+        'Time of Birth': data.tob,
+        'Birth Place': data.place,
+        'Reading Focus': data.type,
+        'Sun Sign': data.sunSign,
+        'Moon Sign': data.moonSign,
+        'Submitted At': data.dateFormatted
+      })
+    }).catch(() => {});
+  } catch (err) {}
+}
+
+// ── ADMIN VAULT DASHBOARD ─────────────────────────────────────
+function openAdminAuth() {
+  if (sessionStorage.getItem('tarot_admin_authenticated') === 'true') {
+    openAdminDashboard();
+    return;
+  }
+  const modal = document.getElementById('adminAuthModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.getElementById('adminPasscode').value = '';
+    document.getElementById('adminAuthError').textContent = '';
+    setTimeout(() => document.getElementById('adminPasscode').focus(), 100);
+  }
+}
+window.openAdminAuth = openAdminAuth;
+
+function closeAdminAuth() {
+  const modal = document.getElementById('adminAuthModal');
+  if (modal) modal.style.display = 'none';
+  if (window.location.hash === '#admin') {
+    history.replaceState(null, null, ' ');
+  }
+}
+window.closeAdminAuth = closeAdminAuth;
+
+function handleAdminLogin(e) {
+  e.preventDefault();
+  const pass = document.getElementById('adminPasscode').value.trim();
+  const currentPass = localStorage.getItem(PASSCODE_KEY) || DEFAULT_PASSCODE;
+  const errEl = document.getElementById('adminAuthError');
+
+  if (pass === currentPass) {
+    sessionStorage.setItem('tarot_admin_authenticated', 'true');
+    closeAdminAuth();
+    openAdminDashboard();
+  } else {
+    errEl.textContent = '✦ Incorrect passcode. Access denied.';
+  }
+}
+window.handleAdminLogin = handleAdminLogin;
+
+function openAdminDashboard() {
+  const modal = document.getElementById('adminDashboardModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    renderAdminSubmissions('');
+  }
+}
+window.openAdminDashboard = openAdminDashboard;
+
+function closeAdminDashboard() {
+  const modal = document.getElementById('adminDashboardModal');
+  if (modal) modal.style.display = 'none';
+  if (window.location.hash === '#admin') {
+    history.replaceState(null, null, ' ');
+  }
+}
+window.closeAdminDashboard = closeAdminDashboard;
+
+function adminLogout() {
+  sessionStorage.removeItem('tarot_admin_authenticated');
+  closeAdminDashboard();
+}
+window.adminLogout = adminLogout;
+
+function renderAdminSubmissions(query) {
+  const list = getStoredSubmissions();
+  const tbody = document.getElementById('adminTableBody');
+  const emptyState = document.getElementById('adminEmptyState');
+  const table = document.getElementById('adminTable');
+
+  // Metrics
+  document.getElementById('statTotalSubmissions').textContent = list.length;
+  
+  const todayStr = new Date().toDateString();
+  const todayCount = list.filter(item => {
+    try { return new Date(item.timestamp).toDateString() === todayStr; }
+    catch (e) { return false; }
+  }).length;
+  document.getElementById('statTodaySubmissions').textContent = todayCount;
+
+  if (list.length > 0) {
+    const focusCounts = {};
+    list.forEach(i => { focusCounts[i.type] = (focusCounts[i.type] || 0) + 1; });
+    const top = Object.keys(focusCounts).reduce((a, b) => focusCounts[a] > focusCounts[b] ? a : b, list[0].type);
+    document.getElementById('statTopFocus').textContent = top.charAt(0).toUpperCase() + top.slice(1);
+  } else {
+    document.getElementById('statTopFocus').textContent = '—';
+  }
+
+  // Filter
+  const q = (query || '').toLowerCase().trim();
+  const filtered = q
+    ? list.filter(i =>
+        i.name.toLowerCase().includes(q) ||
+        (i.email && i.email.toLowerCase().includes(q)) ||
+        i.place.toLowerCase().includes(q) ||
+        i.type.toLowerCase().includes(q)
+      )
+    : list;
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = '';
+    table.style.display = list.length === 0 ? 'none' : 'table';
+    emptyState.style.display = 'block';
+    return;
+  }
+
+  table.style.display = 'table';
+  emptyState.style.display = 'none';
+
+  tbody.innerHTML = filtered.map((sub, index) => `
+    <tr>
+      <td class="td-num">${filtered.length - index}</td>
+      <td class="td-time">${sub.dateFormatted || sub.timestamp.slice(0, 10)}</td>
+      <td class="td-name"><strong>${escapeHtml(sub.name)}</strong></td>
+      <td class="td-email"><a href="mailto:${escapeHtml(sub.email)}">${escapeHtml(sub.email)}</a></td>
+      <td class="td-birth">${sub.dob} <span class="tob-tag">${sub.tob}</span></td>
+      <td class="td-place">${escapeHtml(sub.place)}</td>
+      <td class="td-type"><span class="type-badge badge-${sub.type}">${sub.type}</span></td>
+      <td class="td-signs">☉ ${sub.sunSign} / ☽ ${sub.moonSign}</td>
+      <td class="td-action">
+        <button type="button" class="table-del-btn" onclick="deleteSubmission('${sub.id}')" title="Delete lead">🗑️</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function filterSubmissionsTable() {
+  const query = document.getElementById('adminSearchInput').value;
+  renderAdminSubmissions(query);
+}
+window.filterSubmissionsTable = filterSubmissionsTable;
+
+function deleteSubmission(id) {
+  if (!confirm('Are you sure you want to delete this submission?')) return;
+  let list = getStoredSubmissions();
+  list = list.filter(i => i.id !== id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+  const query = document.getElementById('adminSearchInput').value;
+  renderAdminSubmissions(query);
+}
+window.deleteSubmission = deleteSubmission;
+
+function clearAllSubmissions() {
+  if (!confirm('Warning: This will permanently delete all stored submissions on this browser. Proceed?')) return;
+  localStorage.removeItem(STORAGE_KEY);
+  renderAdminSubmissions('');
+}
+window.clearAllSubmissions = clearAllSubmissions;
+
+function exportSubmissionsCSV() {
+  const list = getStoredSubmissions();
+  if (list.length === 0) {
+    alert('No submissions available to export.');
+    return;
+  }
+
+  const headers = ['ID', 'Submitted At', 'Client Name', 'Email', 'Date of Birth', 'Time of Birth', 'Birth Place', 'Reading Focus', 'Sun Sign', 'Moon Sign', 'Rising Sign'];
+  
+  const rows = list.map(sub => [
+    `"${sub.id}"`,
+    `"${sub.dateFormatted || sub.timestamp}"`,
+    `"${(sub.name || '').replace(/"/g, '""')}"`,
+    `"${(sub.email || '').replace(/"/g, '""')}"`,
+    `"${sub.dob}"`,
+    `"${sub.tob}"`,
+    `"${(sub.place || '').replace(/"/g, '""')}"`,
+    `"${sub.type}"`,
+    `"${sub.sunSign}"`,
+    `"${sub.moonSign}"`,
+    `"${sub.rising || ''}"`
+  ]);
+
+  const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement('a');
+  link.setAttribute('href', encodedUri);
+  link.setAttribute('download', `tarothealers_leads_${new Date().toISOString().slice(0,10)}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+window.exportSubmissionsCSV = exportSubmissionsCSV;
+
+function initAdminTriggers() {
+  if (window.location.hash === '#admin') {
+    openAdminAuth();
+  }
+  window.addEventListener('hashchange', () => {
+    if (window.location.hash === '#admin') openAdminAuth();
+  });
+
+  // Triple-click on moon logo
+  let clicks = 0;
+  let clickTimer;
+  const moon = document.querySelector('.moon-icon');
+  if (moon) {
+    moon.style.cursor = 'pointer';
+    moon.addEventListener('click', () => {
+      clicks++;
+      clearTimeout(clickTimer);
+      if (clicks >= 3) {
+        clicks = 0;
+        openAdminAuth();
+      } else {
+        clickTimer = setTimeout(() => { clicks = 0; }, 800);
+      }
+    });
+  }
+
+  // Secret footer trigger
+  const trigger = document.getElementById('adminSecretTrigger');
+  if (trigger) {
+    trigger.addEventListener('click', openAdminAuth);
+  }
+
+  // Key combo: Ctrl+Shift+A or Cmd+Shift+A
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+      e.preventDefault();
+      openAdminAuth();
+    }
+  });
+}
+
 // ── INIT ──────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initStarfield();
@@ -529,4 +836,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   renderZodiacGrid();
   initForm();
+  initAdminTriggers();
 });
