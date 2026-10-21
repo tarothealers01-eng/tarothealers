@@ -561,12 +561,271 @@
       letter-spacing: 0.1em;
     }
 
+    /* ============================================================
+       CHUNK 3 STYLING: NATAL BLUEPRINT & CARDS
+       ============================================================ */
+    .section-title-wrap {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .eyebrow-tag {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .module-title {
+      font-family: var(--font-title);
+      font-size: clamp(1.6rem, 4vw, 2.3rem);
+      color: var(--moonwhite);
+      margin-bottom: 10px;
+    }
+
+    .module-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 540px;
+      margin: 0 auto;
+    }
+
+    .natal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 860px) {
+      .natal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .natal-card {
+      background: linear-gradient(145deg, rgba(20, 14, 52, 0.9), rgba(12, 8, 30, 0.95));
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-lg);
+      padding: 30px 24px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .natal-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold);
+    }
+
+    .natal-card-glow {
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      pointer-events: none;
+      filter: blur(35px);
+    }
+
+    .sun-glow { background: radial-gradient(circle, rgba(245, 200, 66, 0.25), transparent); }
+    .moon-glow { background: radial-gradient(circle, rgba(232, 121, 249, 0.25), transparent); }
+    .asc-glow { background: radial-gradient(circle, rgba(6, 182, 212, 0.25), transparent); }
+
+    .natal-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .natal-glyph {
+      font-size: 1.8rem;
+    }
+
+    .natal-sign-tag {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      background: rgba(245, 200, 66, 0.1);
+      border: 1px solid rgba(245, 200, 66, 0.25);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .natal-sign-name {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      color: var(--moonwhite);
+      margin-bottom: 4px;
+    }
+
+    .natal-degree {
+      font-size: 0.8rem;
+      color: var(--violet-light);
+      margin-bottom: 16px;
+    }
+
+    .natal-divider {
+      height: 1px;
+      background: linear-gradient(90deg, rgba(124, 58, 237, 0.4), transparent);
+      margin-bottom: 16px;
+    }
+
+    .natal-text {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--text-body);
+      flex-grow: 1;
+      margin-bottom: 18px;
+    }
+
+    .natal-highlight {
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 10px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .natal-highlight span {
+      color: var(--text-muted);
+    }
+
+    .natal-highlight strong {
+      color: var(--gold-light);
+    }
+
+    /* Elemental Equilibrium Card */
+    .elemental-card {
+      margin-top: 10px;
+    }
+
+    .elemental-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(124, 58, 237, 0.2);
+      padding-bottom: 16px;
+    }
+
+    .elemental-title {
+      font-family: var(--font-title);
+      font-size: 1.25rem;
+      color: var(--moonwhite);
+      margin-bottom: 4px;
+    }
+
+    .elemental-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .elemental-seal {
+      font-size: 2rem;
+    }
+
+    .elemental-bars-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px 32px;
+      margin-bottom: 26px;
+    }
+
+    @media (max-width: 680px) {
+      .elemental-bars-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .elem-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .elem-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+    }
+
+    .elem-name {
+      color: var(--moonwhite);
+    }
+
+    .elem-pct {
+      color: var(--gold-light);
+      font-weight: 500;
+    }
+
+    .elem-track {
+      height: 8px;
+      background: rgba(124, 58, 237, 0.2);
+      border: 1px solid rgba(168, 85, 247, 0.25);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .elem-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 1s ease-in-out;
+    }
+
+    .water-fill { background: linear-gradient(90deg, #06b6d4, #3b82f6); box-shadow: 0 0 10px rgba(6, 182, 212, 0.5); }
+    .earth-fill { background: linear-gradient(90deg, #10b981, #059669); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+    .air-fill { background: linear-gradient(90deg, #a855f7, #e879f9); box-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
+    .fire-fill { background: linear-gradient(90deg, #f59e0b, #ef4444); box-shadow: 0 0 10px rgba(245, 158, 11, 0.5); }
+
+    .elemental-insight-callout {
+      background: rgba(124, 58, 237, 0.12);
+      border-left: 3px solid var(--gold);
+      padding: 16px 20px;
+      border-radius: 0 12px 12px 0;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .callout-spark {
+      color: var(--gold);
+      font-size: 1.1rem;
+      line-height: 1.3;
+    }
+
+    .elemental-insight-callout p {
+      font-size: 0.92rem;
+      line-height: 1.7;
+      color: var(--text-body);
+      margin: 0;
+    }
+
+    .elemental-insight-callout em {
+      color: var(--gold-light);
+      font-style: normal;
+      font-weight: 500;
+    }
+
     @media print {
       body { background: #fff !important; color: #111 !important; }
       .client-nav, .sanctuary-actions-bar, .gate-overlay, #starCanvas, .particles { display: none !important; }
       .reading-content-wrap { display: block !important; padding: 0 !important; }
-      .sanctuary-card { border: 1px solid #ccc !important; box-shadow: none !important; color: #111 !important; background: #fff !important; }
-      .client-title, .blessing-title { color: #111 !important; }
+      .sanctuary-card, .natal-card { border: 1px solid #ccc !important; box-shadow: none !important; color: #111 !important; background: #fff !important; }
+      .client-title, .blessing-title, .module-title, .natal-sign-name, .elemental-title { color: #111 !important; }
       .gradient-text { -webkit-text-fill-color: #5b21b6 !important; }
     }
   </style>
@@ -723,7 +982,135 @@
       </div>
     </section>
 
-    <!-- Placeholder for Chunk 3 & 4 (Cosmic Placements & Tarot Cards) -->
+    <!-- ============================================================
+         CHUNK 3: CELESTIAL BLUEPRINT & NATAL PLACEMENTS
+         ============================================================ -->
+    <section class="sanctuary-section">
+      <div class="section-title-wrap">
+        <span class="eyebrow-tag">✦ Portal I ✦</span>
+        <h2 class="module-title">The Celestial Blueprint</h2>
+        <p class="module-subtitle">The cosmic choreography at the moment you entered this realm</p>
+      </div>
+
+      <div class="natal-grid">
+        <!-- Sun Sign -->
+        <div class="natal-card">
+          <div class="natal-card-glow sun-glow"></div>
+          <div class="natal-top">
+            <span class="natal-glyph">☀️</span>
+            <span class="natal-sign-tag">Solar Essence</span>
+          </div>
+          <h4 class="natal-sign-name">Sun in Sacred Radiance</h4>
+          <p class="natal-degree">Core Identity &amp; Soul Will</p>
+          <div class="natal-divider"></div>
+          <p class="natal-text">
+            Your Sun illuminates a natural gift for graceful leadership and deep empathy. You are drawn to creating beauty and bringing order to chaotic environments. Your growth edge lies in realizing your worth isn't measured solely by how much peace you manufacture for other people.
+          </p>
+          <div class="natal-highlight">
+            <span>✦ Soul Keyword:</span> <strong>Sovereign Grace</strong>
+          </div>
+        </div>
+
+        <!-- Moon Sign -->
+        <div class="natal-card">
+          <div class="natal-card-glow moon-glow"></div>
+          <div class="natal-top">
+            <span class="natal-glyph">🌙</span>
+            <span class="natal-sign-tag">Lunar Sanctuary</span>
+          </div>
+          <h4 class="natal-sign-name">Moon in Intuitive Depth</h4>
+          <p class="natal-degree">Emotional World &amp; Subconscious</p>
+          <div class="natal-divider"></div>
+          <p class="natal-text">
+            Your Moon reveals high intuitive sensitivity. You register unspoken emotions in rooms before a word is spoken. Your heart requires safe, sacred quietude to decompress. Honoring your emotional rhythm without apologizing for your sensitivity is your sacred medicine.
+          </p>
+          <div class="natal-highlight">
+            <span>✦ Soul Keyword:</span> <strong>Empathetic Depth</strong>
+          </div>
+        </div>
+
+        <!-- Rising Sign -->
+        <div class="natal-card">
+          <div class="natal-card-glow asc-glow"></div>
+          <div class="natal-top">
+            <span class="natal-glyph">🌅</span>
+            <span class="natal-sign-tag">Ascendant Portal</span>
+          </div>
+          <h4 class="natal-sign-name">Rising Radiance</h4>
+          <p class="natal-degree">Outer Aura &amp; First Impressions</p>
+          <div class="natal-divider"></div>
+          <p class="natal-text">
+            You project an aura of magnetic warmth, composure, and timeless charm. People often turn to you as an anchor when their own lives feel unsettled. Remember that you are allowed to be held as well, not only the one who holds.
+          </p>
+          <div class="natal-highlight">
+            <span>✦ Soul Keyword:</span> <strong>Magnetic Anchor</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Elemental Equilibrium & Cosmic Transit Barometer -->
+      <div class="sanctuary-card elemental-card">
+        <div class="elemental-header">
+          <div>
+            <h3 class="elemental-title">Elemental Harmony &amp; Soul Balance</h3>
+            <p class="elemental-subtitle">The energetic distribution within Inayat's spiritual matrix</p>
+          </div>
+          <span class="elemental-seal">⚖️</span>
+        </div>
+
+        <div class="elemental-bars-grid">
+          <!-- Water -->
+          <div class="elem-item">
+            <div class="elem-meta">
+              <span class="elem-name">🌊 Water (Intuition &amp; Emotion)</span>
+              <span class="elem-pct">38% • Dominant</span>
+            </div>
+            <div class="elem-track">
+              <div class="elem-fill water-fill" style="width: 38%;"></div>
+            </div>
+          </div>
+          <!-- Earth -->
+          <div class="elem-item">
+            <div class="elem-meta">
+              <span class="elem-name">🌿 Earth (Groundedness &amp; Loyalty)</span>
+              <span class="elem-pct">28% • Balanced</span>
+            </div>
+            <div class="elem-track">
+              <div class="elem-fill earth-fill" style="width: 28%;"></div>
+            </div>
+          </div>
+          <!-- Air -->
+          <div class="elem-item">
+            <div class="elem-meta">
+              <span class="elem-name">🌬️ Air (Vision &amp; Communication)</span>
+              <span class="elem-pct">22% • Active</span>
+            </div>
+            <div class="elem-track">
+              <div class="elem-fill air-fill" style="width: 22%;"></div>
+            </div>
+          </div>
+          <!-- Fire -->
+          <div class="elem-item">
+            <div class="elem-meta">
+              <span class="elem-name">🔥 Fire (Passion &amp; Initiative)</span>
+              <span class="elem-pct">12% • Rekindling</span>
+            </div>
+            <div class="elem-track">
+              <div class="elem-fill fire-fill" style="width: 12%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="elemental-insight-callout">
+          <span class="callout-spark">✦</span>
+          <p>
+            <strong>Practitioner Insight:</strong> With Water and Earth reigning supreme in your chart, your loyalty and emotional devotion run deep as rivers. Your current spiritual work is to gently stoke your <em>Fire</em> — claiming bold ambitions, speaking unfiltered desires, and taking up space without reservation.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Placeholder for Chunk 4 (Tarot Spreads & Guidance) -->
     <div id="progressiveModulesPlaceholder"></div>
   </main>
 
