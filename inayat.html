@@ -1,3 +1,547 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Personalized Reading for Inayat Nagpal ☽ TarotHealers</title>
+  <meta name="description" content="Private & Confidential Celestial Reading Prepared for Inayat Nagpal." />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=Raleway:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* ============================================================
+       INAYAT NAGPAL PRIVATE CLIENT PORTAL STYLES
+       ============================================================ */
+    :root {
+      --gold-glow: rgba(245, 200, 66, 0.4);
+      --violet-card-bg: rgba(17, 12, 42, 0.92);
+      --violet-border: rgba(168, 85, 247, 0.35);
+    }
 
-<!-- test ping -->
+    body {
+      background: #06040f;
+      color: var(--text-body);
+      font-family: var(--font-light);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Client Nav */
+    .client-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 28px;
+      background: rgba(6, 4, 15, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .client-nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .client-nav-tag {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(245, 200, 66, 0.1);
+      border: 1px solid rgba(245, 200, 66, 0.25);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .nav-lock-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--violet-light);
+      cursor: pointer;
+      background: rgba(124, 58, 237, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      padding: 6px 14px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-lock-status:hover {
+      background: rgba(124, 58, 237, 0.28);
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ============================================================
+       GATE OVERLAY / PASSWORD SCREEN
+       ============================================================ */
+    .gate-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at center, rgba(17, 12, 42, 0.98) 0%, rgba(6, 4, 15, 0.99) 100%);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s ease;
+    }
+
+    .gate-overlay.unlocked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .gate-card {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      background: linear-gradient(145deg, rgba(20, 14, 50, 0.95), rgba(12, 8, 30, 0.98));
+      border: 1px solid var(--border-glow);
+      border-radius: var(--radius-lg);
+      padding: 48px 36px;
+      text-align: center;
+      box-shadow: 0 0 80px rgba(124, 58, 237, 0.35), 0 20px 60px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      animation: gatePopIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes gatePopIn {
+      0% { opacity: 0; transform: scale(0.92) translateY(20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .gate-glow {
+      position: absolute;
+      top: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      height: 240px;
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(245, 200, 66, 0.1) 50%, transparent 70%);
+      filter: blur(40px);
+      pointer-events: none;
+    }
+
+    .gate-symbol-wrap {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gate-ring {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px dashed rgba(245, 200, 66, 0.4);
+      animation: gateSpin 14s linear infinite;
+    }
+
+    @keyframes gateSpin {
+      100% { transform: rotate(360deg); }
+    }
+
+    .gate-icon-inner {
+      width: 68px;
+      height: 68px;
+      background: rgba(124, 58, 237, 0.25);
+      border: 1px solid rgba(245, 200, 66, 0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      box-shadow: 0 0 25px rgba(245, 200, 66, 0.3);
+      animation: pulseGateIcon 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulseGateIcon {
+      0% { transform: scale(0.96); filter: drop-shadow(0 0 10px rgba(245, 200, 66, 0.4)); }
+      100% { transform: scale(1.04); filter: drop-shadow(0 0 25px rgba(232, 121, 249, 0.6)); }
+    }
+
+    .gate-badge {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .gate-title {
+      font-family: var(--font-title);
+      font-size: clamp(1.5rem, 4vw, 1.9rem);
+      color: var(--moonwhite);
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+
+    .gate-client-name {
+      background: linear-gradient(135deg, var(--gold-light), var(--rose));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      display: block;
+      font-size: clamp(1.7rem, 4.5vw, 2.2rem);
+      margin-top: 4px;
+    }
+
+    .gate-desc {
+      font-size: 0.92rem;
+      color: var(--text-body);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .gate-input-box {
+      position: relative;
+      margin-bottom: 18px;
+    }
+
+    .gate-input-box input {
+      width: 100%;
+      padding: 16px 48px 16px 46px;
+      background: rgba(22, 14, 52, 0.85);
+      border: 1.5px solid var(--border-glow);
+      border-radius: 14px;
+      color: var(--moonwhite);
+      font-size: 1.05rem;
+      font-family: var(--font-body);
+      letter-spacing: 0.15em;
+      text-align: center;
+      outline: none;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .gate-input-box input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 25px rgba(245, 200, 66, 0.35);
+      background: rgba(30, 20, 70, 0.95);
+    }
+
+    .gate-input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--violet-light);
+      pointer-events: none;
+    }
+
+    .gate-eye-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+
+    .gate-eye-toggle:hover {
+      color: var(--moonwhite);
+    }
+
+    .gate-error-msg {
+      color: #f87171;
+      font-size: 0.85rem;
+      min-height: 20px;
+      margin-bottom: 16px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .gate-error-msg.visible {
+      opacity: 1;
+    }
+
+    .shake {
+      animation: shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-2px, 0, 0); }
+      20%, 80% { transform: translate3d(4px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+      40%, 60% { transform: translate3d(6px, 0, 0); }
+    }
+
+    .gate-submit-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--violet), var(--indigo), var(--rose));
+      background-size: 200% 200%;
+      border: none;
+      border-radius: 14px;
+      color: var(--moonwhite);
+      font-family: var(--font-title);
+      font-size: 0.95rem;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      box-shadow: 0 8px 30px rgba(124, 58, 237, 0.45);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .gate-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 45px rgba(124, 58, 237, 0.65);
+    }
+
+    .gate-footer-note {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      margin-top: 24px;
+      line-height: 1.5;
+    }
+
+    /* Reading Sanctuary Container (Revealed after password) */
+    .reading-content-wrap {
+      position: relative;
+      z-index: 2;
+      padding-top: 80px;
+      display: none;
+    }
+
+    .reading-content-wrap.active {
+      display: block;
+      animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starCanvas"></canvas>
+  <div class="particles" id="particles"></div>
+
+  <!-- Client Navigation -->
+  <nav class="client-nav" id="clientNav">
+    <a href="index.html" class="client-nav-brand">
+      <span class="moon-icon">☽</span>
+      <span class="client-nav-tag">Private Sanctuary</span>
+    </a>
+    <div class="nav-lock-status" id="navLockBtn" onclick="lockVault()" title="Click to lock reading">
+      <span id="navLockIcon">🔒</span>
+      <span id="navLockText">Protected</span>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       SACRED PASSWORD GATE (Password: Inayat1996)
+       ============================================================ -->
+  <div class="gate-overlay" id="gateOverlay">
+    <div class="gate-card" id="gateCard">
+      <div class="gate-glow"></div>
+
+      <div class="gate-symbol-wrap">
+        <div class="gate-ring"></div>
+        <div class="gate-icon-inner">🗝️</div>
+      </div>
+
+      <span class="gate-badge">✦ Confidential Client Portal ✦</span>
+      <h1 class="gate-title">
+        Sacred Reading For
+        <span class="gate-client-name">Inayat Nagpal</span>
+      </h1>
+
+      <p class="gate-desc">
+        Your bespoke celestial reading has been consecrated and locked. Please enter your personal passcode to enter your sanctuary.
+      </p>
+
+      <form id="gateForm" onsubmit="handleGateUnlock(event)">
+        <div class="gate-input-box">
+          <span class="gate-input-icon">🔒</span>
+          <input
+            type="password"
+            id="gatePasswordInput"
+            placeholder="Enter Passcode"
+            required
+            autocomplete="current-password"
+            autofocus
+          />
+          <button type="button" class="gate-eye-toggle" id="gateEyeToggle" onclick="togglePasswordVisibility()" aria-label="Toggle password view">
+            👁️
+          </button>
+        </div>
+
+        <div class="gate-error-msg" id="gateError"></div>
+
+        <button type="submit" class="gate-submit-btn">
+          <span>Enter Sacred Sanctuary</span>
+          <span>✦</span>
+        </button>
+      </form>
+
+      <div class="gate-footer-note">
+        🔒 256-bit Encrypted Private Session • Direct inquiries to <strong>tarothealers01@gmail.com</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       READING SANCTUARY (Progressive Delivery in next chunks)
+       ============================================================ -->
+  <main class="reading-content-wrap" id="readingSanctuary">
+    <div style="padding: 100px 24px; text-align: center; max-width: 720px; margin: 0 auto;">
+      <span style="font-size: 3rem;">✨</span>
+      <h2 style="font-family: var(--font-title); color: var(--moonwhite); margin-top: 16px;">
+        Welcome, Inayat Nagpal
+      </h2>
+      <p style="color: var(--gold-light); margin-top: 8px;">
+        Authentication verified. Reading sanctuary structure ready.
+      </p>
+    </div>
+  </main>
+
+  <script>
+    // ============================================================
+    // STARFIELD & PARTICLES ANIMATION
+    // ============================================================
+    const starCanvas = document.getElementById('starCanvas');
+    const ctx = starCanvas ? starCanvas.getContext('2d') : null;
+    let stars = [];
+
+    function resizeStarCanvas() {
+      if (!starCanvas) return;
+      starCanvas.width = window.innerWidth;
+      starCanvas.height = window.innerHeight;
+      initStars();
+    }
+
+    function initStars() {
+      stars = [];
+      const count = Math.min(Math.floor((window.innerWidth * window.innerHeight) / 4500), 180);
+      for (let i = 0; i < count; i++) {
+        stars.push({
+          x: Math.random() * starCanvas.width,
+          y: Math.random() * starCanvas.height,
+          radius: Math.random() * 1.5 + 0.3,
+          alpha: Math.random() * 0.8 + 0.2,
+          speed: Math.random() * 0.015 + 0.005,
+          color: Math.random() > 0.3 ? '#f5c842' : (Math.random() > 0.5 ? '#e879f9' : '#ffffff')
+        });
+      }
+    }
+
+    function animateStars() {
+      if (!ctx || !starCanvas) return;
+      ctx.clearRect(0, 0, starCanvas.width, starCanvas.height);
+      stars.forEach(s => {
+        s.alpha += s.speed;
+        if (s.alpha > 1 || s.alpha < 0.2) s.speed = -s.speed;
+        ctx.save();
+        ctx.globalAlpha = Math.max(0.1, Math.min(1, s.alpha));
+        ctx.fillStyle = s.color;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+      requestAnimationFrame(animateStars);
+    }
+
+    window.addEventListener('resize', resizeStarCanvas);
+    resizeStarCanvas();
+    animateStars();
+
+    // ============================================================
+    // PASSWORD PROTECTION (Passcode: Inayat1996)
+    // ============================================================
+    const VALID_PASSCODE = 'Inayat1996';
+    const AUTH_STORAGE_KEY = 'tarothealers_inayat_unlocked';
+
+    const gateOverlay = document.getElementById('gateOverlay');
+    const gateCard = document.getElementById('gateCard');
+    const gateInput = document.getElementById('gatePasswordInput');
+    const gateError = document.getElementById('gateError');
+    const readingSanctuary = document.getElementById('readingSanctuary');
+    const navLockIcon = document.getElementById('navLockIcon');
+    const navLockText = document.getElementById('navLockText');
+
+    // Check if already authenticated in this session
+    document.addEventListener('DOMContentLoaded', () => {
+      const isUnlocked = sessionStorage.getItem(AUTH_STORAGE_KEY) === 'true';
+      if (isUnlocked) {
+        showSanctuary(false);
+      }
+    });
+
+    function togglePasswordVisibility() {
+      const type = gateInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      gateInput.setAttribute('type', type);
+      document.getElementById('gateEyeToggle').textContent = type === 'password' ? '👁️' : '🔒';
+    }
+
+    function handleGateUnlock(e) {
+      if (e) e.preventDefault();
+      const entered = gateInput.value.trim();
+
+      if (entered === VALID_PASSCODE) {
+        // Success
+        gateError.classList.remove('visible');
+        gateError.textContent = '';
+        sessionStorage.setItem(AUTH_STORAGE_KEY, 'true');
+        showSanctuary(true);
+      } else {
+        // Error Feedback
+        gateError.textContent = '✦ Incorrect passcode. Please check your invitation message.';
+        gateError.classList.add('visible');
+        gateCard.classList.remove('shake');
+        void gateCard.offsetWidth; // Force re-render for shake animation
+        gateCard.classList.add('shake');
+        gateInput.focus();
+        gateInput.select();
+      }
+    }
+
+    function showSanctuary(animate) {
+      gateOverlay.classList.add('unlocked');
+      readingSanctuary.classList.add('active');
+      navLockIcon.textContent = '🔓';
+      navLockText.textContent = 'Unlocked';
+    }
+
+    function lockVault() {
+      sessionStorage.removeItem(AUTH_STORAGE_KEY);
+      gateOverlay.classList.remove('unlocked');
+      readingSanctuary.classList.remove('active');
+      navLockIcon.textContent = '🔒';
+      navLockText.textContent = 'Protected';
+      gateInput.value = '';
+      gateInput.focus();
+    }
+  </script>
+</body>
+</html>
