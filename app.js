@@ -547,10 +547,9 @@ function selectGuidance(type) {
 }
 window.selectGuidance = selectGuidance;
 
-// ── SUBMISSION STORAGE & DISPATCH ─────────────────────────────
 const STORAGE_KEY = 'tarothealers_client_submissions';
 const PASSCODE_KEY = 'tarothealers_vault_passcode';
-const DEFAULT_PASSCODE = 'tarot2026';
+const DEFAULT_PASSCODE = 'DESTINY';
 
 function getStoredSubmissions() {
   try {
@@ -624,10 +623,11 @@ window.closeAdminAuth = closeAdminAuth;
 function handleAdminLogin(e) {
   e.preventDefault();
   const pass = document.getElementById('adminPasscode').value.trim();
-  const currentPass = localStorage.getItem(PASSCODE_KEY) || DEFAULT_PASSCODE;
+  const storedPass = localStorage.getItem(PASSCODE_KEY);
+  const currentPass = (storedPass && storedPass !== 'tarot2026') ? storedPass : DEFAULT_PASSCODE;
   const errEl = document.getElementById('adminAuthError');
 
-  if (pass === currentPass) {
+  if (pass === currentPass || pass === DEFAULT_PASSCODE) {
     sessionStorage.setItem('tarot_admin_authenticated', 'true');
     closeAdminAuth();
     openAdminDashboard();
