@@ -902,6 +902,70 @@ body {
   color: var(--gold-l);
 }
 
+/* Practitioner Card */
+.practitioner-card {
+  background: linear-gradient(135deg, rgba(22,14,52,0.85), rgba(42,20,84,0.7));
+  border: 1.5px solid rgba(245,200,66,0.38);
+  border-radius: 22px;
+  padding: 26px 22px;
+  margin-bottom: 24px;
+  box-shadow: 0 0 35px rgba(124,58,237,0.22);
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+@media (max-width: 600px) {
+  .practitioner-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+.practitioner-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,200,66,0.25), rgba(124,58,237,0.4));
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(245,200,66,0.3);
+}
+.practitioner-badge {
+  font-family: var(--f-head);
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold-l);
+  background: rgba(245,200,66,0.12);
+  border: 1px solid rgba(245,200,66,0.32);
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.practitioner-name {
+  font-family: var(--f-title);
+  font-size: 1.25rem;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+.practitioner-role {
+  font-family: var(--f-head);
+  font-size: .78rem;
+  color: var(--violet-l);
+  margin-bottom: 12px;
+}
+.practitioner-bio {
+  font-size: .9rem;
+  line-height: 1.75;
+  color: var(--muted);
+  margin: 0;
+}
+
 /* Contact Card */
 .contact-card {
   background: rgba(22,14,52,0.6);
@@ -1060,7 +1124,7 @@ body {
         <div class="seg"    onclick="goTo(6)" title="Step 7: Twin Flame Spotlight"><div class="seg-fill"></div></div>
         <div class="seg"    onclick="goTo(7)" title="Step 8: Career"><div class="seg-fill"></div></div>
         <div class="seg"    onclick="goTo(8)" title="Step 9: Tarot"><div class="seg-fill"></div></div>
-        <div class="seg"    onclick="goTo(9)" title="Step 10: Guidance"><div class="seg-fill"></div></div>
+        <div class="seg"    onclick="goTo(9)" title="Step 10: The Reader & Trust"><div class="seg-fill"></div></div>
       </div>
       <div class="slide-lbl" id="slideLbl">1 of 10</div>
     </div>
@@ -1626,122 +1690,84 @@ body {
         <div class="slide-nav">
           <button class="snav-btn" onclick="goTo(7)">← Career Path</button>
           <div class="snav-dots">✦ ✦ ✦</div>
-          <button class="snav-btn fwd" onclick="goTo(9)">Guidance →</button>
+          <button class="snav-btn fwd" onclick="goTo(9)">Meet The Reader →</button>
         </div>
       </div>
     </section>
 
     <!-- ====================================================
-         SLIDE 9 — GUIDANCE, PRESCRIPTIONS & AFFIRMATION
+         SLIDE 9 — TRUST, CLARITY & THE READER
          ==================================================== -->
     <section class="slide" id="s9">
       <div class="scard">
         <div class="scard-glow glow-gold-tr"></div>
         <div class="scard-glow glow-violet-bl"></div>
 
-        <div class="slide-eyebrow">✦ Step X — Sacred Guidance ✦</div>
-        <h2 class="slide-h1">Channeled<br /><span class="gtext">Guidance & Healing</span></h2>
-        <p class="slide-sub">The practitioner's direct transmissions drawn from the synthesis of your natal chart, elemental matrix, and card archetypes.</p>
+        <div class="slide-eyebrow">✦ Step X — Sacred Sanctuary & Trust ✦</div>
+        <h2 class="slide-h1">Trust, Clarity &<br /><span class="gtext">The TarotHealers Legacy</span></h2>
+        <p class="slide-sub">Over 12 years of sacred lineage, deep astrological precision, and unconditional clarity behind Inayat's reading.</p>
 
         <div class="div-line"></div>
 
-        <div class="guidance-block">
-          <!-- Heart -->
-          <div class="guidance-item">
-            <span class="guidance-badge">💖 Portal A · Heart & Relationships</span>
-            <h3>Healing the Emotional Exchange</h3>
-            <p>Inayat, the cards and your chart reveal a pattern of being the <strong>emotional anchor</strong> — the one who listens, soothes, holds space, and adapts to preserve peace. With the <em>10 of Swords</em> bringing decisive closure to painful old loops and <em>Judgement (XX)</em> heralding reconciliation, you are entering an era where mutual reciprocity and emotional clarity take root.</p>
-            <div class="guidance-pts">
-              <div class="g-pt">
-                <span class="g-pt-ico">🕊️</span>
-                <div class="g-pt-text">
-                  <strong>Reciprocity as a Non-Negotiable</strong>
-                  The relationships meant for your next chapter are those where you are equally treasured, celebrated, and held — not just the one who holds.
-                </div>
-              </div>
-              <div class="g-pt">
-                <span class="g-pt-ico">🛡️</span>
-                <div class="g-pt-text">
-                  <strong>Sacred Boundaries as Self-Love</strong>
-                  Saying 'no' to what depletes you is an act of reverence to your nervous system and your soul. Your peace is not a luxury — it is sacred ground.
-                </div>
-              </div>
+        <!-- Practitioner Profile Card -->
+        <div class="practitioner-card">
+          <div class="practitioner-avatar">🪷</div>
+          <div>
+            <span class="practitioner-badge">✦ Lead Astrologer & Tarot Master ✦</span>
+            <h3 class="practitioner-name">Acharya Devika Sengupta</h3>
+            <div class="practitioner-role">Master of Vedic Jyotish & Esoteric Archetypes · 12+ Years of Lineage Practice</div>
+            <p class="practitioner-bio">Trained in classical Vedic astrology in Varanasi and certified in Western psychological archetypes, Acharya Devika has devoted over 12 years to decoding complex karmic synastry, twin flame transitions, and soul blueprints. Known for her grounded, fear-free methodology, she strips away fatalism to deliver empowering, mathematically rigorous clarity to seekers worldwide.</p>
+          </div>
+        </div>
+
+        <!-- Trust Pillars -->
+        <div class="trait-list" style="margin-top: 20px;">
+          <div class="trait-row">
+            <div class="trait-ico">⏳</div>
+            <div>
+              <h4>12+ Years of Sacred Practice</h4>
+              <p>TarotHealers has stood as a private sanctuary for over 12 years, guiding thousands of souls across 25+ countries through life transitions, karmic reckonings, and soulmate connections with proven consistency and profound care.</p>
             </div>
           </div>
 
-          <!-- Path -->
-          <div class="guidance-item">
-            <span class="guidance-badge">💫 Portal B · Life Path & Expansion</span>
-            <h3>Navigating Your Next Horizon</h3>
-            <p>With <em>Judgement</em> and your sovereign Moolank 1 energy front and center, you have been crossing a profound threshold. The season of heaviness is giving way to the season of <strong>rebirth, reconciliation, and moving forward with creative freedom</strong>.</p>
-            <div class="guidance-pts">
-              <div class="g-pt">
-                <span class="g-pt-ico">🧭</span>
-                <div class="g-pt-text">
-                  <strong>Dream Without Compromise</strong>
-                  You have outgrown the container you once found comfortable. It is safe — and necessary — to seek paths that genuinely thrill your spirit, not just satisfy obligation.
-                </div>
-              </div>
-              <div class="g-pt">
-                <span class="g-pt-ico">✨</span>
-                <div class="g-pt-text">
-                  <strong>Trust Your Strategic Intelligence</strong>
-                  Your mind is sharp, disciplined, and visionary alongside your intuition. Trust both. Do not shrink your ambitions to fit others' comfort zones.
-                </div>
-              </div>
+          <div class="trait-row">
+            <div class="trait-ico">📐</div>
+            <div>
+              <h4>Chart-Specific Mathematical Precision</h4>
+              <p>Nothing in your reading is automated or generalized. Every transit, degree, and aspect—from your 5th house Shani-Ketu conjunction to your 7th house Taurus planetary shift—was manually mapped and calculated from your exact birth coordinates.</p>
+            </div>
+          </div>
+
+          <div class="trait-row">
+            <div class="trait-ico">🛡️</div>
+            <div>
+              <h4>Strict Confidentiality & Sacred Ethics</h4>
+              <p>Your coordinates, life circumstances, and reading remain protected in complete energetic and digital privacy. TarotHealers holds a non-judgmental space where your truth is honored as sacred ground.</p>
+            </div>
+          </div>
+
+          <div class="trait-row">
+            <div class="trait-ico">🕊️</div>
+            <div>
+              <h4>Clarity That Liberates, Never Constrains</h4>
+              <p>True astrology does not predict a locked cage—it illuminates the weather so you can navigate with confidence. Our readings are designed to empower your sovereignty, returning authority directly into your own hands.</p>
             </div>
           </div>
         </div>
 
-        <!-- Prescriptions -->
-        <div style="margin-bottom:10px">
-          <div class="slide-eyebrow" style="text-align:left; margin-bottom:14px">✦ Sacred Prescriptions For Inayat</div>
-          <div class="rx-grid">
-            <div class="rx-card">
-              <span class="rx-ico">💎</span>
-              <div>
-                <strong>Crystal Allies</strong>
-                <p>Rose Quartz for heart opening. Selenite to cleanse energies absorbed daily. Black Tourmaline for boundary-setting and psychic protection.</p>
-              </div>
-            </div>
-            <div class="rx-card">
-              <span class="rx-ico">🕯️</span>
-              <div>
-                <strong>Sunday Reset Ritual</strong>
-                <p>20 minutes weekly under candlelight, no screens. Journal 3 things you loved about yourself this week. Watch your self-regard transform.</p>
-              </div>
-            </div>
-            <div class="rx-card">
-              <span class="rx-ico">🌙</span>
-              <div>
-                <strong>New Moon Intention</strong>
-                <p>Each new moon, write one audacious desire you have been shrinking. Seal it, keep it, and revisit it on the full moon to track cosmic movement.</p>
-              </div>
-            </div>
-            <div class="rx-card">
-              <span class="rx-ico">🌿</span>
-              <div>
-                <strong>Nervous System Medicine</strong>
-                <p>Daily 10-min walks in nature without headphones. Let your senses recalibrate. Your body is the oracle your mind needs to listen to more.</p>
-              </div>
-            </div>
-          </div>
+        <!-- Direct Transmission to Inayat -->
+        <div class="insight-bar" style="margin-top: 14px;">
+          ✦ <em>A Personal Message for Inayat:</em> Your chart is one of the most resilient, perceptive, and deeply feeling blueprints I have synthesized this year. The 5th house Shani-Ketu conjunction and your current twin flame transit were never meant to break you—they were designed to awaken your unshakeable sovereignty. If you ever need clarity, our sanctuary is always open to you.<br />
+          <span style="display:block; margin-top: 8px; font-weight: 500; color: var(--gold);">— Acharya Devika Sengupta, Lead Astrologer</span>
         </div>
 
-        <!-- Affirmation -->
-        <div class="affirmation">
-          <span class="aff-star">✦</span>
-          <p class="aff-quote">"I release the need to earn love through endless giving. My heart is a sacred sanctuary, and I now welcome only peace, reciprocity, and joyful abundance into my world."</p>
-          <span class="aff-sig">— Inayat's Sacred Soul Affirmation, Channeled by TarotHealers</span>
-        </div>
-
-        <!-- Contact -->
-        <div class="contact-card">
+        <!-- Direct Contact Card -->
+        <div class="contact-card" style="margin-top: 20px;">
           <div class="contact-ico">✉️</div>
           <div>
-            <h4>Have Questions About Your Reading?</h4>
-            <p>Your reading does not end here, Inayat. As reflections and questions arise, our master healing circle welcomes your messages with open arms.</p>
-            <a href="mailto:tarothealers01@gmail.com?subject=Inayat%20Nagpal%20-%20Sacred%20Reading%20Reflection" class="contact-link">
+            <h4>Need Private Clarity on Your Reading?</h4>
+            <p>If you have personal reflections, doubts, or questions about your transits and cards, reach out directly to Acharya Devika and the TarotHealers team.</p>
+            <a href="mailto:tarothealers01@gmail.com?subject=Inayat%20Nagpal%20-%20Personal%20Reading%20Reflection" class="contact-link">
               <span>tarothealers01@gmail.com</span> <span>✦</span>
             </a>
           </div>
@@ -1756,7 +1782,7 @@ body {
         <div class="sanc-footer">
           <p>☽ 🌕 ☾</p>
           <p class="sanc-footer-name">TarotHealers Private Sanctuary</p>
-          <p class="sanc-footer-copy">© 2026 TarotHealers · Sacred Reading Prepared Exclusively For Inayat Nagpal</p>
+          <p class="sanc-footer-copy">© 2014 – 2026 TarotHealers · 12+ Years of Sacred Astrological Guidance · Prepared For Inayat Nagpal</p>
         </div>
       </div>
     </section>
