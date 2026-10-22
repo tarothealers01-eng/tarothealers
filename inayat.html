@@ -598,6 +598,39 @@ body {
 }
 .insight-bar em { color: var(--gold-l); font-style: normal; font-weight: 500; }
 
+/* Did You Know Spotlight */
+.did-you-know-card {
+  background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(245,200,66,0.12));
+  border: 1.5px solid rgba(245,200,66,0.38);
+  border-radius: 20px;
+  padding: 24px 22px;
+  margin-bottom: 22px;
+  box-shadow: 0 0 25px rgba(124,58,237,0.22);
+  position: relative;
+}
+.dyk-badge {
+  font-family: var(--f-head);
+  font-size: .68rem;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--gold-l);
+  background: rgba(245,200,66,0.15);
+  border: 1px solid rgba(245,200,66,0.35);
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.dyk-lead {
+  font-size: .95rem;
+  line-height: 1.75;
+  color: var(--white);
+  margin: 0;
+}
+.dyk-lead strong {
+  color: var(--gold-l);
+}
+
 /* =====================================================
    SLIDE 3  – COSMIC BLUEPRINT
    ===================================================== */
@@ -1012,11 +1045,12 @@ body {
         <div class="seg now" onclick="goTo(0)" title="Step 1: Arrival"><div class="seg-fill"></div></div>
         <div class="seg"    onclick="goTo(1)" title="Step 2: Family Roots"><div class="seg-fill"></div></div>
         <div class="seg"    onclick="goTo(2)" title="Step 3: Armoured Empath"><div class="seg-fill"></div></div>
-        <div class="seg"    onclick="goTo(3)" title="Step 4: Blueprint"><div class="seg-fill"></div></div>
-        <div class="seg"    onclick="goTo(4)" title="Step 5: Tarot"><div class="seg-fill"></div></div>
-        <div class="seg"    onclick="goTo(5)" title="Step 6: Guidance"><div class="seg-fill"></div></div>
+        <div class="seg"    onclick="goTo(3)" title="Step 4: Did You Know?"><div class="seg-fill"></div></div>
+        <div class="seg"    onclick="goTo(4)" title="Step 5: Blueprint"><div class="seg-fill"></div></div>
+        <div class="seg"    onclick="goTo(5)" title="Step 6: Tarot"><div class="seg-fill"></div></div>
+        <div class="seg"    onclick="goTo(6)" title="Step 7: Guidance"><div class="seg-fill"></div></div>
       </div>
-      <div class="slide-lbl" id="slideLbl">1 of 6</div>
+      <div class="slide-lbl" id="slideLbl">1 of 7</div>
     </div>
   </header>
 
@@ -1189,20 +1223,79 @@ body {
         <div class="slide-nav">
           <button class="snav-btn" onclick="goTo(1)">← Family Roots</button>
           <div class="snav-dots">✦ ✦ ✦</div>
-          <button class="snav-btn fwd" onclick="goTo(3)">Cosmic Blueprint →</button>
+          <button class="snav-btn fwd" onclick="goTo(3)">Did You Know? →</button>
         </div>
       </div>
     </section>
 
     <!-- ====================================================
-         SLIDE 3 — COSMIC BLUEPRINT
+         SLIDE 3 — DID YOU KNOW? THE OLD SOUL ARCHETYPE
          ==================================================== -->
     <section class="slide" id="s3">
       <div class="scard">
         <div class="scard-glow glow-gold-tr"></div>
         <div class="scard-glow glow-violet-bl"></div>
 
-        <div class="slide-eyebrow">✦ Step IV — Celestial Blueprint ✦</div>
+        <div class="slide-eyebrow">✦ Sacred Spotlight · Did You Know? ✦</div>
+        <h2 class="slide-h1">The Concept of an<br /><span class="gtext">"Old Soul"</span></h2>
+        <p class="slide-sub">A rare spiritual frequency carried by those who walk through the world with ancient memory, quiet detachment, and an infinite inner universe.</p>
+
+        <div class="div-line"></div>
+
+        <div class="did-you-know-card">
+          <div class="dyk-badge">✨ Timeless Consciousness</div>
+          <p class="dyk-lead">
+            An <strong>Old Soul</strong> is someone whose spirit carries the accumulated wisdom, depth, and poise of having walked this earth many times before. They are not defined by their chronological years—they arrive into this world already mature beyond their physical age, equipped with an innate, unteachable knowing.
+          </p>
+        </div>
+
+        <div class="trait-list" style="margin-top: 20px;">
+          <div class="trait-row">
+            <div class="trait-ico">🌌</div>
+            <div>
+              <h4>The "Crowded Solitude" Paradox</h4>
+              <p>You can place an old soul in the center of a bustling crowd, surrounded by people talking and celebrating, and they will still be <strong>gently floating in their own universe</strong>. On the outside, they are socially graceful and present; on the inside, they are quietly detached, observing the room from a distant, peaceful vantage point.</p>
+            </div>
+          </div>
+
+          <div class="trait-row">
+            <div class="trait-ico">🕊️</div>
+            <div>
+              <h4>Innate Wisdom & Sacred Detachment</h4>
+              <p>Old souls possess a natural, instinctive detachment from superficial drama, passing trends, and social politics. It is not coldness—it is <strong>ancient perspective</strong>. They love deeply, yet they never tie their peace to external validation. They have seen the cycle before; they know what is real and what is merely passing noise.</p>
+            </div>
+          </div>
+
+          <div class="trait-row">
+            <div class="trait-ico">🧭</div>
+            <div>
+              <h4>A Powerful Inner Sense & Rich Internal World</h4>
+              <p>While the world looks outward for direction, an old soul relies entirely on a <strong>strong internal compass</strong>. Their internal world is an entire sanctuary of reflection, feeling, and contemplation. Solitude is never loneliness for them—it is the holy ground where their spirit breathes and recharges.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="insight-bar" style="margin-top: 10px;">
+          ✦ <em>A Mirror For Inayat:</em> If you have ever felt strangely separate from people your age, or felt like an observer watching life from a quiet inner sanctuary—never doubt yourself. It is the sacred signature of an Old Soul navigating a modern realm.
+        </div>
+
+        <div class="slide-nav">
+          <button class="snav-btn" onclick="goTo(2)">← Armoured Empath</button>
+          <div class="snav-dots">✦ ✦ ✦</div>
+          <button class="snav-btn fwd" onclick="goTo(4)">Cosmic Blueprint →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         SLIDE 4 — COSMIC BLUEPRINT
+         ==================================================== -->
+    <section class="slide" id="s4">
+      <div class="scard">
+        <div class="scard-glow glow-gold-tr"></div>
+        <div class="scard-glow glow-violet-bl"></div>
+
+        <div class="slide-eyebrow">✦ Step V — Celestial Blueprint ✦</div>
         <h2 class="slide-h1">The Cosmic<br /><span class="gtext">Architecture</span></h2>
         <p class="slide-sub">The planetary choreography at the moment Inayat arrived — her unique celestial fingerprint, written in the sky.</p>
 
@@ -1278,22 +1371,22 @@ body {
         </div>
 
         <div class="slide-nav">
-          <button class="snav-btn" onclick="goTo(2)">← Armoured Empath</button>
+          <button class="snav-btn" onclick="goTo(3)">← Did You Know?</button>
           <div class="snav-dots">✦ ✦ ✦</div>
-          <button class="snav-btn fwd" onclick="goTo(4)">Tarot Reading →</button>
+          <button class="snav-btn fwd" onclick="goTo(5)">Tarot Reading →</button>
         </div>
       </div>
     </section>
 
     <!-- ====================================================
-         SLIDE 4 — TAROT SPREAD
+         SLIDE 5 — TAROT SPREAD
          ==================================================== -->
-    <section class="slide" id="s4">
+    <section class="slide" id="s5">
       <div class="scard">
         <div class="scard-glow glow-gold-tr"></div>
         <div class="scard-glow glow-violet-bl"></div>
 
-        <div class="slide-eyebrow">✦ Step V — Sacred Tarot ✦</div>
+        <div class="slide-eyebrow">✦ Step VI — Sacred Tarot ✦</div>
         <h2 class="slide-h1">The Tarot<br /><span class="gtext">Synthesis</span></h2>
         <p class="spread-intro">Four archetypal keys drawn from the celestial ether — each a mirror reflecting where you are and where you are being called.</p>
         <p class="tap-note" style="margin-bottom:20px">✦ Tap each card to reveal its sacred archetype ✦</p>
@@ -1381,22 +1474,22 @@ body {
         </div>
 
         <div class="slide-nav">
-          <button class="snav-btn" onclick="goTo(3)">← Blueprint</button>
+          <button class="snav-btn" onclick="goTo(4)">← Blueprint</button>
           <div class="snav-dots">✦ ✦ ✦</div>
-          <button class="snav-btn fwd" onclick="goTo(5)">Guidance →</button>
+          <button class="snav-btn fwd" onclick="goTo(6)">Guidance →</button>
         </div>
       </div>
     </section>
 
     <!-- ====================================================
-         SLIDE 5 — GUIDANCE, PRESCRIPTIONS & AFFIRMATION
+         SLIDE 6 — GUIDANCE, PRESCRIPTIONS & AFFIRMATION
          ==================================================== -->
-    <section class="slide" id="s5">
+    <section class="slide" id="s6">
       <div class="scard">
         <div class="scard-glow glow-gold-tr"></div>
         <div class="scard-glow glow-violet-bl"></div>
 
-        <div class="slide-eyebrow">✦ Step VI — Sacred Guidance ✦</div>
+        <div class="slide-eyebrow">✦ Step VII — Sacred Guidance ✦</div>
         <h2 class="slide-h1">Channeled<br /><span class="gtext">Guidance & Healing</span></h2>
         <p class="slide-sub">The practitioner's direct transmissions drawn from the synthesis of your natal chart, elemental matrix, and card archetypes.</p>
 
@@ -1505,7 +1598,7 @@ body {
         </div>
 
         <div class="slide-nav">
-          <button class="snav-btn" onclick="goTo(4)">← Tarot</button>
+          <button class="snav-btn" onclick="goTo(5)">← Tarot</button>
           <div class="snav-dots">✦ End of Reading ✦</div>
           <button class="snav-btn" onclick="goTo(0)">Back to Start ↺</button>
         </div>
@@ -1596,7 +1689,7 @@ function lockVault() {
 /* ====================================================
    SLIDESHOW
    ==================================================== */
-const TOTAL = 6;
+const TOTAL = 7;
 let cur = 0;
 
 function goTo(idx) {
@@ -1625,7 +1718,7 @@ function goTo(idx) {
   document.getElementById('slideLbl').textContent = (cur + 1) + ' of ' + TOTAL;
 
   // Animate elemental bars when blueprint slide shows
-  if (cur === 3) {
+  if (cur === 4) {
     setTimeout(() => {
       document.querySelectorAll('.elem-fill').forEach(b => {
         b.style.width = b.dataset.w + '%';
