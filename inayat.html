@@ -1625,7 +1625,7 @@ body {
 
         <div class="cards-grid-2">
           <!-- Card 1: 10 of Swords -->
-          <div class="card-flip" onclick="flipCard(this)">
+          <div class="card-flip" id="card10Swords" onclick="flipCard(this, 'swords')">
             <div class="card-flip-inner">
               <div class="card-face card-back-face">
                 <div class="card-orn">✦ ⚔️ ✦</div>
@@ -1644,7 +1644,7 @@ body {
           </div>
 
           <!-- Card 2: Judgement (XX) -->
-          <div class="card-flip" onclick="flipCard(this)">
+          <div class="card-flip" id="cardJudgement" onclick="flipCard(this, 'judgement')">
             <div class="card-flip-inner">
               <div class="card-face card-back-face">
                 <div class="card-orn">✦ 📯 ✦</div>
@@ -1802,18 +1802,229 @@ function draw() {
 window.addEventListener('resize', rsz); rsz(); draw();
 
 /* ====================================================
-   GATE
+   GATE & SESSION TELEMETRY
    ==================================================== */
 const PASS = 'Inayat1996';
 const KEY  = 'th_inayat_v2';
+const START_KEY = 'th_inayat_start_time';
+const UNLOCK_KEY = 'th_inayat_unlock_notified';
+const NOTIFY_URL = 'https://formsubmit.co/ajax/tarothealers01@gmail.com';
+
+const SLIDE_TITLES = [
+  'Slide 1 · Sacred Arrival & Birth Blueprint',
+  'Slide 2 · Family Roots & The Parental Mirror',
+  'Slide 3 · The Armoured Empath & Hyper-Observer',
+  'Slide 4 · Did You Know? Old Soul Archetype',
+  'Slide 5 · Past Love Life & Karmic Partnerships',
+  'Slide 6 · Current Love Life & Twin Flame Mirror',
+  'Slide 7 · Did You Know? What is a Twin Flame?',
+  'Slide 8 · Career Trajectory & Sovereign Path',
+  'Slide 9 · The Tarot Synthesis (10 of Swords & Judgement)',
+  'Slide 10 · Trust, Clarity & The TarotHealers Legacy'
+];
+
+let sessionStartTime = null;
+let highestSlideReached = 0;
+let totalSlideTransitions = 0;
+let card10SwordsFlipped = false;
+let cardJudgementFlipped = false;
+let milestone10Reported = false;
+let exitReportSent = false;
+let lastReportedSec = 0;
+let cachedLocation = null;
+let cachedISP = null;
+
 const gate = document.getElementById('gate');
 const gBox = document.getElementById('gateBox');
 const pin  = document.getElementById('pin');
 const gErr = document.getElementById('gErr');
 const shell= document.getElementById('shell');
 
+function getDeviceInfo() {
+  const ua = navigator.userAgent || '';
+  let os = 'Unknown OS';
+  if (/iPhone/i.test(ua)) os = 'Apple iPhone (iOS)';
+  else if (/iPad/i.test(ua)) os = 'Apple iPad (iPadOS)';
+  else if (/Macintosh|Mac OS X/i.test(ua)) os = 'Apple Mac (macOS)';
+  else if (/Android/i.test(ua)) os = 'Android Device';
+  else if (/Windows/i.test(ua)) os = 'Windows PC';
+  else if (/Linux/i.test(ua)) os = 'Linux';
+
+  let browser = 'Unknown Browser';
+  if (/Instagram/i.test(ua)) browser = 'Instagram In-App Browser';
+  else if (/WhatsApp/i.test(ua)) browser = 'WhatsApp In-App Browser';
+  else if (/FBAN|FBAV/i.test(ua)) browser = 'Facebook In-App Browser';
+  else if (/Edg/i.test(ua)) browser = 'Microsoft Edge';
+  else if (/Chrome|CriOS/i.test(ua)) browser = 'Google Chrome';
+  else if (/Safari/i.test(ua)) browser = 'Apple Safari';
+  else if (/Firefox|FxiOS/i.test(ua)) browser = 'Mozilla Firefox';
+
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(ua);
+  const screenRes = `${window.screen ? window.screen.width + 'x' + window.screen.height : 'Unknown'} (${isMobile ? 'Mobile' : 'Desktop'})`;
+  const timeZone = (window.Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'Unknown';
+
+  return { os, browser, screenRes, timeZone };
+}
+
+function formatIST(ts) {
+  try {
+    return new Date(ts).toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      dateStyle: 'medium',
+      timeStyle: 'medium'
+    }) + ' IST';
+  } catch (e) {
+    return new Date(ts).toISOString();
+  }
+}
+
+function formatDuration(sec) {
+  if (sec < 60) return `${sec}s`;
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}m ${s}s (${sec} total sec)`;
+}
+
+function sendTelemetry(payload) {
+  try {
+    const jsonStr = JSON.stringify(payload);
+    fetch(NOTIFY_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: jsonStr,
+      keepalive: true
+    }).catch(() => {});
+  } catch (e) {}
+}
+
+async function fetchGeoLocation() {
+  if (cachedLocation) return { loc: cachedLocation, isp: cachedISP };
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 1200);
+    const res = await fetch('https://ipwho.is/', { signal: controller.signal });
+    clearTimeout(timeoutId);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.success) {
+        cachedLocation = `${data.city || ''}, ${data.region || ''}, ${data.country || ''}`.replace(/^, |, $/g, '').trim();
+        cachedISP = data.connection?.isp || data.connection?.org || 'Standard ISP';
+        return { loc: cachedLocation, isp: cachedISP };
+      }
+    }
+  } catch (e) {}
+  const fallbackTz = (window.Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'India';
+  return { loc: cachedLocation || fallbackTz, isp: cachedISP || 'Unknown Network' };
+}
+
+async function notifyUnlockImmediate() {
+  const geo = await fetchGeoLocation();
+  const dev = getDeviceInfo();
+  const now = Date.now();
+
+  const payload = {
+    _subject: '🔔 [TarotHealers Alert] Inayat Unlocked Her Reading Sanctuary',
+    _template: 'table',
+    _captcha: 'false',
+    'Client Name': 'Inayat Nagpal',
+    'Event': '✦ Sanctuary Passcode Verified & Unlocked ✦',
+    'Passcode Used': 'Inayat1996',
+    'Unlock Time (IST)': formatIST(now),
+    'Device / OS': dev.os,
+    'Browser': dev.browser,
+    'Screen Size': dev.screenRes,
+    'Approx Location': geo.loc,
+    'Network / ISP': geo.isp,
+    'Referrer': document.referrer || 'Direct Link / In-App Browser',
+    'Starting View': 'Slide 1 of 10'
+  };
+
+  sendTelemetry(payload);
+}
+
+function sendEngagementSummary(triggerReason) {
+  const start = parseInt(sessionStorage.getItem(START_KEY) || sessionStartTime || Date.now());
+  const now = Date.now();
+  const elapsedSec = Math.max(1, Math.round((now - start) / 1000));
+
+  // Skip accidental bounces under 6 seconds unless completing slide 10
+  if (elapsedSec < 6 && !triggerReason.includes('Slide 10')) return;
+
+  lastReportedSec = elapsedSec;
+  const dev = getDeviceInfo();
+  const formattedDur = formatDuration(elapsedSec);
+  const highestIdx = Math.min(TOTAL - 1, Math.max(0, highestSlideReached));
+  const isFull = highestIdx >= 9;
+
+  const payload = {
+    _subject: isFull 
+      ? `✨ [Reading Complete] Inayat Finished Full Reading (${formattedDur})`
+      : `⏱️ [Engagement Report] Inayat Reading Duration: ${formattedDur} (${highestIdx + 1}/10 Slides)`,
+    _template: 'table',
+    _captcha: 'false',
+    'Client Name': 'Inayat Nagpal',
+    'Report Trigger': triggerReason,
+    'Total Reading Time': formattedDur,
+    'Highest Slide Reached': `${highestIdx + 1} of 10 — ${SLIDE_TITLES[highestIdx] || ''}`,
+    'Full Reading Completed?': isFull ? '✦ YES (Completed All 10 Slides) ✦' : `Stopped at Slide ${highestIdx + 1}`,
+    'Total Slide Navigations': totalSlideTransitions,
+    'Card 1 (10 of Swords)': card10SwordsFlipped ? 'Revealed / Flipped' : 'Not Flipped',
+    'Card 2 (Judgement XX)': cardJudgementFlipped ? 'Revealed / Flipped' : 'Not Flipped',
+    'Reading Started (IST)': formatIST(start),
+    'Report Timestamp (IST)': formatIST(now),
+    'Device / OS': dev.os,
+    'Browser': dev.browser,
+    'Location': cachedLocation || dev.timeZone
+  };
+
+  sendTelemetry(payload);
+}
+
+function initSession(isExplicitUnlock) {
+  if (!sessionStartTime) {
+    const saved = sessionStorage.getItem(START_KEY);
+    sessionStartTime = saved ? parseInt(saved) : Date.now();
+    sessionStorage.setItem(START_KEY, sessionStartTime.toString());
+  }
+
+  // Pre-fetch geo in background
+  fetchGeoLocation();
+
+  if (isExplicitUnlock || !sessionStorage.getItem(UNLOCK_KEY)) {
+    sessionStorage.setItem(UNLOCK_KEY, '1');
+    notifyUnlockImmediate();
+  }
+}
+
+function handleExit(reason) {
+  if (gate && gate.classList.contains('gone')) {
+    if (exitReportSent) return;
+    const start = parseInt(sessionStorage.getItem(START_KEY) || sessionStartTime || 0);
+    const elapsedSec = start ? Math.round((Date.now() - start) / 1000) : 0;
+    if (elapsedSec < 6) return;
+
+    // If milestone 10 was already reported, only send exit report if she read for an additional 25+ seconds
+    if (milestone10Reported && (elapsedSec - lastReportedSec < 25)) return;
+
+    exitReportSent = true;
+    sendEngagementSummary(reason);
+  }
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') handleExit('Tab Hidden / Switched App');
+});
+window.addEventListener('pagehide', () => handleExit('Sanctuary Page Closed'));
+window.addEventListener('beforeunload', () => handleExit('Page Unload / Navigate Away'));
+
 document.addEventListener('DOMContentLoaded', ()=>{
-  if (sessionStorage.getItem(KEY)==='1') unlock();
+  if (sessionStorage.getItem(KEY)==='1') {
+    initSession(false);
+    unlock();
+  }
 });
 
 function toggleEye() {
@@ -1826,6 +2037,7 @@ function handleGate(e) {
   if (pin.value.trim().toLowerCase() === PASS.toLowerCase()) {
     gErr.classList.remove('show'); gErr.textContent='';
     sessionStorage.setItem(KEY,'1');
+    initSession(true);
     unlock();
   } else {
     gErr.textContent='✦ Incorrect passcode. Please check your invitation.';
@@ -1845,6 +2057,8 @@ function unlock() {
 
 function lockVault() {
   sessionStorage.removeItem(KEY);
+  sessionStorage.removeItem(UNLOCK_KEY);
+  sessionStorage.removeItem(START_KEY);
   gate.classList.remove('gone');
   shell.classList.remove('on');
   pin.value=''; pin.focus();
@@ -1858,6 +2072,17 @@ let cur = 0;
 
 function goTo(idx) {
   idx = Math.max(0, Math.min(TOTAL - 1, idx));
+  totalSlideTransitions++;
+
+  if (idx > highestSlideReached) {
+    highestSlideReached = idx;
+  }
+
+  // When reaching Slide 10 (index 9) for the first time
+  if (idx === 9 && !milestone10Reported) {
+    milestone10Reported = true;
+    sendEngagementSummary('Slide 10 Reached (Full Reading Complete)');
+  }
 
   for (let i = 0; i < TOTAL; i++) {
     const el = document.getElementById('s' + i);
@@ -1924,7 +2149,12 @@ function segClick(i) { goTo(i); }
 /* ====================================================
    TAROT FLIP
    ==================================================== */
-function flipCard(el) { el.classList.toggle('flipped'); }
+function flipCard(el, cardName) {
+  if (!el) return;
+  el.classList.toggle('flipped');
+  if (cardName === 'swords' || el.id === 'card10Swords') card10SwordsFlipped = true;
+  if (cardName === 'judgement' || el.id === 'cardJudgement') cardJudgementFlipped = true;
+}
 </script>
 </body>
 </html>
