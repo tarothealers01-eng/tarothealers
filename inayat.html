@@ -737,6 +737,15 @@ body {
 @media (max-width: 780px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 420px)  { .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
 
+.cards-grid-2 {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 18px; max-width: 580px; margin: 0 auto 16px;
+  perspective: 1200px;
+}
+@media (max-width: 540px) {
+  .cards-grid-2 { gap: 12px; }
+}
+
 .card-flip {
   height: 290px;
   perspective: 1200px; cursor: pointer;
@@ -1547,85 +1556,45 @@ body {
 
         <div class="slide-eyebrow">✦ Step IX — Sacred Tarot ✦</div>
         <h2 class="slide-h1">The Tarot<br /><span class="gtext">Synthesis</span></h2>
-        <p class="spread-intro">Four archetypal keys drawn from the celestial ether — each a mirror reflecting where you are and where you are being called.</p>
+        <p class="spread-intro">Two pivotal archetypes drawn for Inayat — illuminating the end of past heaviness and the cosmic call for reconciliation.</p>
         <p class="tap-note" style="margin-bottom:20px">✦ Tap each card to reveal its sacred archetype ✦</p>
 
-        <div class="cards-grid">
-          <!-- Card 1 -->
+        <div class="cards-grid-2">
+          <!-- Card 1: 10 of Swords -->
           <div class="card-flip" onclick="flipCard(this)">
             <div class="card-flip-inner">
               <div class="card-face card-back-face">
-                <div class="card-orn">✦ ☽ ✦</div>
-                <span class="card-pos-lbl">Position I</span>
-                <div class="card-pos-name">Current Spiritual Energy</div>
+                <div class="card-orn">✦ ⚔️ ✦</div>
+                <span class="card-pos-lbl">Card I · The Dawn</span>
+                <div class="card-pos-name">Release & Renewal</div>
                 <div class="card-hint">Tap to Reveal</div>
               </div>
               <div class="card-face card-front-face">
-                <div class="card-badge-top">Major Arcana · XVII</div>
-                <div class="card-symbol">⭐</div>
-                <div class="card-arcana">The Star</div>
-                <div class="card-theme">Hope, Healing & Renewal</div>
-                <div class="card-text">You are emerging from a season of silent heaviness. The cosmos is clearing the fog and restoring your faith. Divine light is flooding the spaces where doubt once lived. Receive it.</div>
+                <div class="card-badge-top">Minor Arcana · Swords</div>
+                <div class="card-symbol">⚔️</div>
+                <div class="card-arcana">10 of Swords</div>
+                <div class="card-theme">End of a Difficult Period</div>
+                <div class="card-text">Depicts the absolute conclusion of a difficult, exhausting chapter. The worst is decisively behind you. As mental burdens and past wounds are surrendered, the dawn breaks—clearing the path to return to happiness, relief, and deep emotional fulfillment.</div>
                 <div class="card-flip-hint">Tap to flip ↺</div>
               </div>
             </div>
           </div>
 
-          <!-- Card 2 -->
+          <!-- Card 2: Judgement (XX) -->
           <div class="card-flip" onclick="flipCard(this)">
             <div class="card-flip-inner">
               <div class="card-face card-back-face">
-                <div class="card-orn">✦ ☽ ✦</div>
-                <span class="card-pos-lbl">Position II</span>
-                <div class="card-pos-name">Heart & Self Worth</div>
+                <div class="card-orn">✦ 📯 ✦</div>
+                <span class="card-pos-lbl">Card II · Sacred Calling</span>
+                <div class="card-pos-name">Cosmic Awakening</div>
                 <div class="card-hint">Tap to Reveal</div>
               </div>
               <div class="card-face card-front-face">
-                <div class="card-badge-top">Major Arcana · III</div>
-                <div class="card-symbol">👑</div>
-                <div class="card-arcana">The Empress</div>
-                <div class="card-theme">Sovereignty & Sacred Receiving</div>
-                <div class="card-text">You have given your garden endlessly to others. This card commands you to sit on your own throne. Let tenderness and devotion flow back to the one who creates it — you.</div>
-                <div class="card-flip-hint">Tap to flip ↺</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 3 -->
-          <div class="card-flip" onclick="flipCard(this)">
-            <div class="card-flip-inner">
-              <div class="card-face card-back-face">
-                <div class="card-orn">✦ ☽ ✦</div>
-                <span class="card-pos-lbl">Position III</span>
-                <div class="card-pos-name">The Path & Crossroads</div>
-                <div class="card-hint">Tap to Reveal</div>
-              </div>
-              <div class="card-face card-front-face">
-                <div class="card-badge-top">Minor Arcana · Fire</div>
-                <div class="card-symbol">🧭</div>
-                <div class="card-arcana">Two of Wands</div>
-                <div class="card-theme">Vision, Expansion & Bold Choice</div>
-                <div class="card-text">You hold the world in your hands, standing at a threshold. The comfort of the known is now more costly than the exhilaration of the unknown. It is time to plan boldly and step forward.</div>
-                <div class="card-flip-hint">Tap to flip ↺</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Card 4 -->
-          <div class="card-flip" onclick="flipCard(this)">
-            <div class="card-flip-inner">
-              <div class="card-face card-back-face">
-                <div class="card-orn">✦ ☽ ✦</div>
-                <span class="card-pos-lbl">Position IV</span>
-                <div class="card-pos-name">Spiritual Outcome</div>
-                <div class="card-hint">Tap to Reveal</div>
-              </div>
-              <div class="card-face card-front-face">
-                <div class="card-badge-top">Minor Arcana · Water</div>
-                <div class="card-symbol">🏆</div>
-                <div class="card-arcana">Ace of Cups</div>
-                <div class="card-theme">Emotional Rebirth & Overflow</div>
-                <div class="card-text">An overflowing vessel of reciprocal love and unshakeable peace awaits. As you release old expectations, your emotional cup fills with pure, authentic connection and joyful abundance.</div>
+                <div class="card-badge-top">Major Arcana · XX</div>
+                <div class="card-symbol">📯</div>
+                <div class="card-arcana">Judgement (XX)</div>
+                <div class="card-theme">Reconciliation & Higher Perspective</div>
+                <div class="card-text">One of the strongest cards of reconciliation in the entire tarot. An unfinished connection is revisited with a fresh, elevated perspective. Old cycles and misunderstandings are forgiven and transmuted, opening the portal for a conscious and lasting fresh beginning.</div>
                 <div class="card-flip-hint">Tap to flip ↺</div>
               </div>
             </div>
@@ -1659,7 +1628,7 @@ body {
           <div class="guidance-item">
             <span class="guidance-badge">💖 Portal A · Heart & Relationships</span>
             <h3>Healing the Emotional Exchange</h3>
-            <p>Inayat, the cards and your chart reveal a pattern of being the <strong>emotional anchor</strong> — the one who listens, soothes, holds space, and adapts to preserve peace. While your capacity for love is extraordinary, <em>The Empress</em> paired with <em>Ace of Cups</em> marks a turning point: the universe is calling you inward.</p>
+            <p>Inayat, the cards and your chart reveal a pattern of being the <strong>emotional anchor</strong> — the one who listens, soothes, holds space, and adapts to preserve peace. With the <em>10 of Swords</em> bringing decisive closure to painful old loops and <em>Judgement (XX)</em> heralding reconciliation, you are entering an era where mutual reciprocity and emotional clarity take root.</p>
             <div class="guidance-pts">
               <div class="g-pt">
                 <span class="g-pt-ico">🕊️</span>
@@ -1682,7 +1651,7 @@ body {
           <div class="guidance-item">
             <span class="guidance-badge">💫 Portal B · Life Path & Expansion</span>
             <h3>Navigating Your Next Horizon</h3>
-            <p>With <em>Two of Wands</em> front and center, you have been calculating your next great move. Whether in your profession, lifestyle, or creative calling — the season of deliberating is giving way to the season of <strong>choosing and moving</strong>.</p>
+            <p>With <em>Judgement</em> and your sovereign Moolank 1 energy front and center, you have been crossing a profound threshold. The season of heaviness is giving way to the season of <strong>rebirth, reconciliation, and moving forward with creative freedom</strong>.</p>
             <div class="guidance-pts">
               <div class="g-pt">
                 <span class="g-pt-ico">🧭</span>
