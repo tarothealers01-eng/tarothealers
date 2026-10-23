@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Reader Sanctuary — Acharya Devika ☽ TarotHealers</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&family=Raleway:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:          #06040e;
+  --surface:     rgba(16, 10, 38, 0.92);
+  --surface2:    rgba(22, 14, 52, 0.98);
+  --violet:      #7c3aed;
+  --violet-l:    #a855f7;
+  --gold:        #f5c842;
+  --gold-l:      #fde68a;
+  --rose:        #e879f9;
+  --teal:        #06b6d4;
+  --emerald:     #10b981;
+  --white:       #f0e8ff;
+  --muted:       rgba(196, 184, 232, 0.65);
+  --border:      rgba(168, 85, 247, 0.25);
+  --border-gold: rgba(245, 200, 66, 0.4);
+  --f-title:     'Cinzel Decorative', serif;
+  --f-head:      'Cinzel', serif;
+  --f-body:      'Raleway', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--white);
+  font-family: var(--f-body);
+  font-weight: 300;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background Stars */
+#starsCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ========================================================
+   AUTH GATE
+   ======================================================== */
+.reader-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: radial-gradient(circle at center, #150d36 0%, #06040e 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+.reader-gate.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gate-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border-gold);
+  border-radius: 24px;
+  padding: 40px 32px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 0 60px rgba(124, 58, 237, 0.35), 0 20px 40px rgba(0,0,0,0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  position: relative;
+}
+
+.gate-avatar {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(245, 200, 66, 0.2), rgba(124, 58, 237, 0.3));
+  border: 1.5px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 0 25px rgba(245, 200, 66, 0.3);
+}
+
+.gate-badge {
+  font-family: var(--f-head);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+  display: block;
+}
+
+.gate-title {
+  font-family: var(--f-title);
+  font-size: 1.45rem;
+  color: #fff;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.gate-subtitle {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.gate-input-wrap {
+  position: relative;
+  margin-bottom: 14px;
+}
+
+.gate-input {
+  width: 100%;
+  padding: 14px 44px 14px 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: #fff;
+  font-family: var(--f-body);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  outline: none;
+  transition: all 0.3s;
+}
+.gate-input:focus {
+  border-color: var(--gold);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 16px rgba(245, 200, 66, 0.25);
+}
+
+.gate-eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.gate-error {
+  color: var(--rose);
+  font-size: 0.82rem;
+  margin-bottom: 14px;
+  min-height: 1.2em;
+}
+
+.gate-submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--gold), var(--rose));
+  color: #0d0920;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--f-head);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.gate-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(245, 200, 66, 0.4);
+}
+
+/* ========================================================
+   MAIN READER DESK
+   ======================================================== */
+.desk-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Header */
+.desk-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.desk-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  font-size: 1.8rem;
+  color: var(--gold);
+}
+
+.brand-title {
+  font-family: var(--f-title);
+  font-size: 1.35rem;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.brand-sub {
+  font-size: 0.8rem;
+  color: var(--gold-l);
+  display: block;
+  letter-spacing: 0.1em;
+  font-family: var(--f-head);
+}
+
+.desk-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.desk-btn {
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-family: var(--f-head);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.desk-btn.secondary {
+  background: rgba(124, 58, 237, 0.2);
+  border: 1px solid var(--border);
+  color: var(--white);
+}
+.desk-btn.secondary:hover {
+  background: rgba(124, 58, 237, 0.35);
+  border-color: var(--violet-l);
+}
+
+.desk-btn.logout {
+  background: rgba(232, 121, 249, 0.1);
+  border: 1px solid rgba(232, 121, 249, 0.3);
+  color: var(--rose);
+}
+.desk-btn.logout:hover {
+  background: rgba(232, 121, 249, 0.25);
+}
+
+/* Client Overview Card */
+.client-card {
+  background: var(--surface);
+  border: 1px solid var(--border-gold);
+  border-radius: 18px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.client-info h2 {
+  font-family: var(--f-title);
+  font-size: 1.25rem;
+  color: var(--gold-l);
+  margin-bottom: 4px;
+}
+
+.client-meta {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.client-meta strong {
+  color: #fff;
+  font-weight: 500;
+}
+
+.client-link-btn {
+  background: rgba(245, 200, 66, 0.12);
+  border: 1px solid var(--gold);
+  color: var(--gold-l);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-family: var(--f-head);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.client-link-btn:hover {
+  background: rgba(245, 200, 66, 0.25);
+  box-shadow: 0 0 16px rgba(245, 200, 66, 0.3);
+}
+
+/* Chat Shell */
+.chat-shell {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-shell-header {
+  padding: 16px 22px;
+  background: rgba(16, 10, 38, 0.95);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.shell-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  background: var(--emerald);
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--emerald);
+}
+
+.shell-title {
+  font-family: var(--f-head);
+  font-size: 0.95rem;
+  color: #fff;
+  letter-spacing: 0.08em;
+}
+
+.message-count-badge {
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 3px 9px;
+  border-radius: 12px;
+}
+
+.chat-messages-container {
+  height: 440px;
+  overflow-y: auto;
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: rgba(6, 4, 14, 0.55);
+}
+
+/* Message Bubbles */
+.msg-row {
+  display: flex;
+  flex-direction: column;
+  max-width: 82%;
+  animation: fadeIn 0.3s ease;
+}
+
+.msg-row.inayat {
+  align-self: flex-start;
+}
+
+.msg-row.reader {
+  align-self: flex-end;
+}
+
+.msg-header {
+  font-size: 0.75rem;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.msg-row.inayat .msg-header {
+  color: var(--violet-l);
+}
+
+.msg-row.reader .msg-header {
+  color: var(--gold-l);
+  justify-content: flex-end;
+}
+
+.msg-bubble {
+  padding: 14px 18px;
+  border-radius: 16px;
+  font-size: 0.94rem;
+  line-height: 1.65;
+  word-break: break-word;
+  position: relative;
+}
+
+.msg-row.inayat .msg-bubble {
+  background: rgba(124, 58, 237, 0.22);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  color: #fff;
+  border-top-left-radius: 4px;
+}
+
+.msg-row.reader .msg-bubble {
+  background: linear-gradient(135deg, rgba(245, 200, 66, 0.16), rgba(16, 185, 129, 0.18));
+  border: 1px solid var(--border-gold);
+  color: #fff;
+  border-top-right-radius: 4px;
+}
+
+.msg-time {
+  font-size: 0.7rem;
+  color: var(--muted);
+  margin-top: 5px;
+}
+.msg-row.reader .msg-time {
+  text-align: right;
+}
+
+/* Empty state */
+.chat-empty {
+  margin: auto;
+  text-align: center;
+  color: var(--muted);
+  padding: 30px;
+}
+.chat-empty-icon {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  opacity: 0.6;
+}
+
+/* Reply Box */
+.reply-box {
+  padding: 20px;
+  background: rgba(16, 10, 38, 0.98);
+  border-top: 1px solid var(--border);
+}
+
+.reply-textarea {
+  width: 100%;
+  min-height: 90px;
+  max-height: 180px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: #fff;
+  font-family: var(--f-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  outline: none;
+  resize: vertical;
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+.reply-textarea:focus {
+  border-color: var(--gold);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 16px rgba(245, 200, 66, 0.2);
+}
+
+.reply-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.reply-hint {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.reply-btn {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, var(--gold), var(--rose));
+  color: #0d0920;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--f-head);
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.reply-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(245, 200, 66, 0.4);
+}
+.reply-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.clear-history-btn {
+  background: none;
+  border: none;
+  color: rgba(232, 121, 249, 0.6);
+  font-size: 0.75rem;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.clear-history-btn:hover {
+  color: var(--rose);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .desk-container { padding: 16px 12px 40px; }
+  .gate-card { padding: 30px 20px; }
+  .chat-messages-container { height: 380px; padding: 16px 12px; }
+  .msg-row { max-width: 92%; }
+}
+  </style>
+</head>
+<body>
+
+  <canvas id="starsCanvas"></canvas>
+
+  <!-- ========================================================
+       PASSWORD GATE ("Destiny2003")
+       ======================================================== -->
+  <div class="reader-gate" id="readerGate">
+    <div class="gate-card">
+      <div class="gate-avatar">🪷</div>
+      <span class="gate-badge">✦ Sacred Sanctuary ✦</span>
+      <h1 class="gate-title">Reader Portal</h1>
+      <p class="gate-subtitle">Acharya Devika Sengupta · Private Client Consultation Desk</p>
+
+      <form id="gateForm" onsubmit="handleReaderLogin(event)">
+        <div class="gate-input-wrap">
+          <input type="password" id="passcode" class="gate-input" placeholder="Enter Reader Passcode" required autofocus autocomplete="current-password" />
+          <button type="button" class="gate-eye-btn" onclick="togglePasscodeEye()">👁️</button>
+        </div>
+        <div class="gate-error" id="gateError"></div>
+        <button type="submit" class="gate-submit-btn">Unlock Consultation Desk ✦</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       READER DESK INTERFACE
+       ======================================================== -->
+  <div class="desk-container">
+    <header class="desk-header">
+      <div class="desk-brand">
+        <span class="brand-icon">☽</span>
+        <div>
+          <h1 class="brand-title">Tarot<span style="color:var(--gold);">Healers</span></h1>
+          <span class="brand-sub">Acharya Devika · Direct Consultation Desk</span>
+        </div>
+      </div>
+      <div class="desk-actions">
+        <button type="button" class="desk-btn secondary" onclick="loadMessages()" title="Refresh Conversation">↻ Refresh Feed</button>
+        <button type="button" class="desk-btn logout" onclick="handleReaderLogout()">Lock Portal</button>
+      </div>
+    </header>
+
+    <!-- Client Info Card -->
+    <section class="client-card">
+      <div class="client-info">
+        <h2>Inayat Nagpal</h2>
+        <p class="client-meta">
+          <strong>DOB:</strong> 01 Oct 1996 · 11:20 AM · New Delhi &nbsp;|&nbsp; <strong>Focus:</strong> Twin Flame Synastry, 5th House Shani-Ketu, Career Sovereignty
+        </p>
+      </div>
+      <a href="inayat.html" target="_blank" class="client-link-btn">
+        <span>View Inayat's Sanctuary</span>
+        <span>↗</span>
+      </a>
+    </section>
+
+    <!-- Chat Interface -->
+    <div class="chat-shell">
+      <div class="chat-shell-header">
+        <div class="shell-title-wrap">
+          <div class="status-dot"></div>
+          <span class="shell-title">Direct Client Channel: Inayat</span>
+        </div>
+        <span class="message-count-badge" id="msgCountBadge">0 messages</span>
+      </div>
+
+      <div class="chat-messages-container" id="chatThread">
+        <div class="chat-empty">
+          <div class="chat-empty-icon">⏳</div>
+          <p>Loading client conversation...</p>
+        </div>
+      </div>
+
+      <div class="reply-box">
+        <textarea id="replyText" class="reply-textarea" placeholder="Type your response to Inayat Nagpal..."></textarea>
+        <div class="reply-footer">
+          <span class="reply-hint">✦ Replies appear instantly on Inayat's Slide 10 chat box</span>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <button type="button" class="clear-history-btn" onclick="clearConversation()">Clear All Messages</button>
+            <button type="button" class="reply-btn" id="sendBtn" onclick="sendReply()">
+              <span>Send Response</span>
+              <span>✦</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const READER_PASS = 'Destiny2003';
+    const AUTH_KEY = 'th_reader_session_v1';
+    let pollInterval = null;
+
+    // Starfield Background
+    const canvas = document.getElementById('starsCanvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      stars = Array.from({ length: 90 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.3 + 0.3,
+        a: Math.random() * 0.8 + 0.2,
+        speed: (Math.random() * 0.015 + 0.005) * (Math.random() > 0.5 ? 1 : -1)
+      }));
+    }
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(s => {
+        s.a += s.speed;
+        if (s.a > 1 || s.a < 0.15) s.speed = -s.speed;
+        ctx.save();
+        ctx.globalAlpha = Math.max(0.1, Math.min(1, s.a));
+        ctx.fillStyle = '#f5c842';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      });
+      requestAnimationFrame(drawStars);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+    drawStars();
+
+    // Authentication
+    document.addEventListener('DOMContentLoaded', () => {
+      if (sessionStorage.getItem(AUTH_KEY) === '1') {
+        unlockDesk();
+      }
+    });
+
+    function togglePasscodeEye() {
+      const el = document.getElementById('passcode');
+      el.type = el.type === 'password' ? 'text' : 'password';
+    }
+
+    function handleReaderLogin(e) {
+      e.preventDefault();
+      const val = document.getElementById('passcode').value.trim();
+      const err = document.getElementById('gateError');
+      if (val === READER_PASS) {
+        err.textContent = '';
+        sessionStorage.setItem(AUTH_KEY, '1');
+        unlockDesk();
+      } else {
+        err.textContent = '✦ Invalid passcode. Access restricted to Acharya Devika.';
+      }
+    }
+
+    function unlockDesk() {
+      document.getElementById('readerGate').classList.add('hidden');
+      loadMessages();
+      if (!pollInterval) {
+        pollInterval = setInterval(loadMessages, 5000);
+      }
+    }
+
+    function handleReaderLogout() {
+      sessionStorage.removeItem(AUTH_KEY);
+      clearInterval(pollInterval);
+      pollInterval = null;
+      document.getElementById('passcode').value = '';
+      document.getElementById('readerGate').classList.remove('hidden');
+    }
+
+    // Load Messages
+    async function loadMessages() {
+      try {
+        const res = await fetch('/api/chat', { cache: 'no-store' });
+        const data = await res.json();
+        if (data && data.success && Array.isArray(data.messages)) {
+          renderMessages(data.messages);
+        }
+      } catch (e) {
+        console.error('Failed to load messages', e);
+      }
+    }
+
+    function formatTime(iso) {
+      if (!iso) return '';
+      try {
+        return new Date(iso).toLocaleString('en-IN', {
+          timeZone: 'Asia/Kolkata',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        }) + ' IST';
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function renderMessages(messages) {
+      const thread = document.getElementById('chatThread');
+      const badge = document.getElementById('msgCountBadge');
+      badge.textContent = `${messages.length} message${messages.length === 1 ? '' : 's'}`;
+
+      if (messages.length === 0) {
+        thread.innerHTML = `
+          <div class="chat-empty">
+            <div class="chat-empty-icon">🪷</div>
+            <p>No messages in conversation yet.</p>
+            <p style="font-size:0.8rem; margin-top:6px; opacity:0.7;">When Inayat sends a question from Slide 10, it will appear here in real time.</p>
+          </div>
+        `;
+        return;
+      }
+
+      thread.innerHTML = messages.map(m => {
+        const isReader = m.sender === 'reader';
+        return `
+          <div class="msg-row ${isReader ? 'reader' : 'inayat'}">
+            <div class="msg-header">
+              <span>${isReader ? 'Acharya Devika (Reader)' : 'Inayat Nagpal (Client)'}</span>
+            </div>
+            <div class="msg-bubble">${escapeHtml(m.text)}</div>
+            <div class="msg-time">${formatTime(m.timestamp)}</div>
+          </div>
+        `;
+      }).join('');
+
+      thread.scrollTop = thread.scrollHeight;
+    }
+
+    // Send Reply
+    async function sendReply() {
+      const textarea = document.getElementById('replyText');
+      const btn = document.getElementById('sendBtn');
+      const text = textarea.value.trim();
+      if (!text) return;
+
+      btn.disabled = true;
+      btn.innerHTML = '<span>Sending...</span>';
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            sender: 'reader',
+            passcode: READER_PASS,
+            text: text
+          })
+        });
+        const data = await res.json();
+        if (data && data.success) {
+          textarea.value = '';
+          if (Array.isArray(data.messages)) {
+            renderMessages(data.messages);
+          } else {
+            loadMessages();
+          }
+        } else {
+          alert(data.error || 'Failed to send reply');
+        }
+      } catch (e) {
+        alert('Network error while sending reply.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Send Response</span><span>✦</span>';
+      }
+    }
+
+    // Clear Conversation
+    async function clearConversation() {
+      if (!confirm('Are you sure you want to clear the entire chat history with Inayat? This cannot be undone.')) return;
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'clear',
+            passcode: READER_PASS
+          })
+        });
+        const data = await res.json();
+        if (data && data.success) {
+          loadMessages();
+        }
+      } catch (e) {
+        alert('Could not clear conversation');
+      }
+    }
+  </script>
+</body>
+</html>
