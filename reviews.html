@@ -716,19 +716,6 @@ body {
   margin: 0 auto;
   line-height: 1.6;
 }
-.inayat-welcome-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(245, 200, 66, 0.15);
-  border: 1px solid var(--border-gold);
-  color: var(--gold-l);
-  padding: 8px 18px;
-  border-radius: 20px;
-  font-family: var(--f-head);
-  font-size: 0.82rem;
-  margin-top: 14px;
-}
 .review-form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -848,27 +835,135 @@ body {
   z-index: 1;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
+  .hero-section {
+    padding: 38px 16px 24px;
+  }
   .practitioner-banner {
     flex-direction: column;
     text-align: center;
-    padding: 24px 20px;
+    padding: 24px 18px;
+    gap: 16px;
+    margin-bottom: 28px;
+    border-radius: 20px;
+  }
+  .banner-avatar {
+    width: 76px;
+    height: 76px;
+    font-size: 2.2rem;
+  }
+  .banner-content h2 {
+    font-size: 1.3rem;
+  }
+  .banner-role {
+    font-size: 0.8rem;
+  }
+  .banner-desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
   }
   .stats-strip {
     grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 30px;
+  }
+  .stat-pill {
+    padding: 14px 10px;
+  }
+  .stat-num {
+    font-size: 1.35rem;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+  }
+  .philosophy-card {
+    padding: 22px 18px;
+    margin-bottom: 32px;
+    border-radius: 18px;
+  }
+  .phil-text {
+    font-size: 0.94rem;
+    line-height: 1.65;
   }
   .controls-wrap {
     flex-direction: column;
     align-items: stretch;
+    padding: 0 16px;
+    gap: 14px;
+    margin-bottom: 24px;
   }
   .search-box {
     width: 100%;
+    min-width: 0;
   }
   .filter-tabs {
     justify-content: center;
+    width: 100%;
+    gap: 8px;
+  }
+  .filter-btn {
+    padding: 7px 12px;
+    font-size: 0.72rem;
+    flex: 1 1 auto;
+    text-align: center;
   }
   .reviews-grid {
     grid-template-columns: 1fr;
+    padding: 0 16px;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .submit-review-section, .reviews-cta-section {
+    padding: 0 16px;
+    margin-bottom: 45px;
+  }
+  .review-form-card, .cta-inner-card {
+    padding: 26px 18px;
+    border-radius: 20px;
+  }
+  .review-form-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .cta-title {
+    font-size: 1.5rem;
+  }
+  .cta-buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .cta-buttons a {
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 640px) {
+  .top-nav {
+    padding: 10px 14px;
+  }
+  .brand-text {
+    font-size: 1.1rem;
+  }
+  .nav-actions {
+    gap: 10px;
+  }
+  .nav-actions .nav-link.hide-mobile {
+    display: none;
+  }
+  .nav-cta-btn {
+    padding: 7px 13px;
+    font-size: 0.74rem;
+  }
+  .hero-h1 {
+    font-size: 1.75rem;
+  }
+  .form-title {
+    font-size: 1.45rem;
+  }
+  .submit-btn {
+    width: 100%;
   }
 }
   </style>
@@ -887,9 +982,9 @@ body {
         <span class="brand-text">Tarot<span class="brand-gold">Healers</span></span>
       </a>
       <div class="nav-actions">
-        <a href="#leaveReview" class="nav-link" style="color:var(--gold-l);">Drop a Review ✍️</a>
-        <a href="index.html#reading" class="nav-link">Get a Reading</a>
-        <a href="index.html#healing" class="nav-link">Sanctuary</a>
+        <a href="#leaveReview" class="nav-link drop-link" style="color:var(--gold-l);">Drop a Review ✍️</a>
+        <a href="index.html#reading" class="nav-link hide-mobile">Get a Reading</a>
+        <a href="index.html#healing" class="nav-link hide-mobile">Sanctuary</a>
         <a href="index.html#reading" class="nav-cta-btn">Book Reading ✦</a>
       </div>
     </div>
@@ -955,11 +1050,11 @@ body {
   <!-- FILTER CONTROLS & SEARCH -->
   <section class="controls-wrap">
     <div class="filter-tabs" id="filterTabs">
-      <button class="filter-btn active" onclick="setFilter('all', this)">All Reviews (12)</button>
-      <button class="filter-btn" onclick="setFilter('truth', this)">Brutally Honest (No Sugarcoating)</button>
-      <button class="filter-btn" onclick="setFilter('love', this)">Relationships & Dating</button>
-      <button class="filter-btn" onclick="setFilter('career', this)">Career & Business</button>
-      <button class="filter-btn" onclick="setFilter('timing', this)">Predictions & Accuracy</button>
+      <button class="filter-btn active" onclick="setFilter('all', this)">All (12)</button>
+      <button class="filter-btn" onclick="setFilter('truth', this)">Brutal Honesty</button>
+      <button class="filter-btn" onclick="setFilter('love', this)">Relationships</button>
+      <button class="filter-btn" onclick="setFilter('career', this)">Career & Work</button>
+      <button class="filter-btn" onclick="setFilter('timing', this)">Timing Accuracy</button>
     </div>
 
     <div class="search-box">
@@ -1292,7 +1387,7 @@ body {
   </main>
 
   <!-- =====================================================
-       LEAVE A REVIEW FORM (INAYAT & CLIENTS)
+       LEAVE A VERIFIED REVIEW FORM
        ===================================================== -->
   <section class="submit-review-section" id="leaveReview">
     <div class="review-form-card">
@@ -1302,9 +1397,6 @@ body {
         <p class="form-sub">
           Had a reading or consultation with Acharya Devika? Drop your honest, unfiltered review below. Whether it confirmed what you needed to hear or saved you from an illusion, your feedback is honored.
         </p>
-        <div id="inayatWelcome" class="inayat-welcome-badge" style="display:none;">
-          <span>✦ Welcome, Inayat Nagpal · Share your thoughts on your personal reading below ✦</span>
-        </div>
       </div>
 
       <form id="clientReviewForm" onsubmit="handleReviewSubmit(event)">
@@ -1312,13 +1404,13 @@ body {
           <!-- Name -->
           <div class="form-group">
             <label class="form-label" for="revName">Your Name / Initials *</label>
-            <input type="text" id="revName" class="form-input" placeholder="e.g. Inayat, Rhea K., Arjun" required autocomplete="off" />
+            <input type="text" id="revName" class="form-input" placeholder="Your Name or Initials" required autocomplete="off" />
           </div>
 
           <!-- Location / Title -->
           <div class="form-group">
             <label class="form-label" for="revLocation">Location / Profession</label>
-            <input type="text" id="revLocation" class="form-input" placeholder="e.g. New Delhi · Designer" autocomplete="off" />
+            <input type="text" id="revLocation" class="form-input" placeholder="City / Country" autocomplete="off" />
           </div>
 
           <!-- Reading Type -->
@@ -1651,21 +1743,6 @@ body {
       // Ensure search input is cleared
       const searchEl = document.getElementById('reviewSearch');
       if (searchEl) searchEl.value = '';
-
-      // Check query param for Inayat or custom client
-      try {
-        const params = new URLSearchParams(window.location.search);
-        const client = params.get('client') || params.get('name');
-        if (client) {
-          const nameInput = document.getElementById('revName');
-          if (nameInput) nameInput.value = client;
-          const welcome = document.getElementById('inayatWelcome');
-          if (welcome) {
-            welcome.style.display = 'inline-flex';
-            welcome.innerHTML = `<span>✦ Welcome, ${escapeHtml(client)} · Share your feedback on your personal reading with Acharya Devika below ✦</span>`;
-          }
-        }
-      } catch (e) {}
 
       // Load any submitted reviews
       loadSubmittedReviews();
