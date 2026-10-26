@@ -645,6 +645,18 @@ function initHomeVisitorTelemetry() {
     timestamp: now
   };
 
+  // Instant push notification to phone
+  fetch('https://ntfy.sh/tarothealers_devika_alerts', {
+    method: 'POST',
+    headers: {
+      'Title': '👀 [Visitor Alert] TarotHealers Home',
+      'Priority': 'urgent',
+      'Tags': 'crystal_ball,star'
+    },
+    body: `Visitor on TarotHealers Home\nDevice: ${os} (${browser})\nTraffic: ${payload.referrer}`,
+    keepalive: true
+  }).catch(() => {});
+
   fetch('/api/visit', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

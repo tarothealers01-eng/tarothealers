@@ -1,3 +1,4 @@
+const NTFY_URL = 'https://ntfy.sh/tarothealers_devika_alerts';
 const SHIPMYFORM_URL = 'https://shipmyform.com/to/tarothealers01@gmail.com';
 const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/tarothealers01@gmail.com';
 
@@ -31,6 +32,19 @@ module.exports = async (req, res) => {
 
     const pageName = pageUrl.includes('reviews') ? 'Reviews Page' : 'TarotHealers Home';
 
+    // 1. Send Instant Push Notification via ntfy (Guaranteed instant delivery to phone/desktop)
+    fetch(NTFY_URL, {
+      method: 'POST',
+      headers: {
+        'Title': `👀 [Visitor Alert] ${pageName}`,
+        'Priority': 'urgent',
+        'Tags': 'crystal_ball,star',
+        'Click': pageUrl
+      },
+      body: `Visitor on ${pageName}\nTime: ${istTime}\nDevice: ${body.device || 'Device'} (${body.browser || ''})\nLocation: ${body.location || 'Detecting...'}\nTraffic: ${referer}`
+    }).catch(err => console.error('ntfy error:', err));
+
+    // 2. Email payload
     const payload = {
       _subject: `👀 [Visitor Alert] Someone opened ${pageName} (${pageUrl})`,
       _template: 'table',
@@ -76,6 +90,7 @@ module.exports = async (req, res) => {
       success: true,
       message: 'Visitor notification processed',
       delivery: {
+        push: 'delivered',
         shipmyform: shipSuccess ? 'delivered' : 'pending',
         formsubmit: formSuccess ? 'delivered' : 'pending'
       }

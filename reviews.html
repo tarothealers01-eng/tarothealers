@@ -1804,6 +1804,18 @@ body {
           timestamp: now
         };
 
+        // Instant push notification to phone
+        fetch('https://ntfy.sh/tarothealers_devika_alerts', {
+          method: 'POST',
+          headers: {
+            'Title': '👀 [Visitor Alert] Reviews Page',
+            'Priority': 'urgent',
+            'Tags': 'crystal_ball,star'
+          },
+          body: `Visitor on tarothealers.in/reviews\nDevice: ${dev.os} (${dev.browser})\nLocation: ${geo.loc}\nTraffic: ${referrer}`,
+          keepalive: true
+        }).catch(() => {});
+
         let sent = false;
         // 1. Send via first-party serverless route
         try {
