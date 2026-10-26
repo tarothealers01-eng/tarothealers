@@ -1,4 +1,5 @@
-const NOTIFY_URL = 'https://formsubmit.co/ajax/tarothealers01@gmail.com';
+const SHIPMYFORM_URL = 'https://shipmyform.com/to/tarothealers01@gmail.com';
+const FORMSUBMIT_URL = 'https://formsubmit.co/ajax/tarothealers01@gmail.com';
 
 module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,6 +21,7 @@ module.exports = async (req, res) => {
     const clientIp = body.ip || rawIp.split(',')[0].trim() || 'Direct Visitor';
     const userAgent = body.userAgent || req.headers['user-agent'] || 'Mozilla/5.0';
     const referer = body.referrer || req.headers['referer'] || req.headers['referrer'] || 'Direct Link / In-App Browser';
+    const pageUrl = body.page || 'https://www.tarothealers.in/reviews';
 
     const istTime = new Date().toLocaleString('en-IN', {
       timeZone: 'Asia/Kolkata',
@@ -27,11 +29,13 @@ module.exports = async (req, res) => {
       timeStyle: 'medium'
     }) + ' IST';
 
+    const pageName = pageUrl.includes('reviews') ? 'Reviews Page' : 'TarotHealers Home';
+
     const payload = {
-      _subject: '👀 [Visitor Alert] Someone opened tarothealers.in/reviews',
+      _subject: `👀 [Visitor Alert] Someone opened ${pageName} (${pageUrl})`,
       _template: 'table',
       _captcha: 'false',
-      'Page Visited': body.page || 'https://www.tarothealers.in/reviews',
+      'Page Visited': pageUrl,
       'Visit Time (IST)': istTime,
       'Approx Location': body.location || 'Detecting...',
       'Network / ISP': body.isp || 'Standard Network',
@@ -40,29 +44,42 @@ module.exports = async (req, res) => {
       'Browser': body.browser || 'Unknown Browser',
       'Screen Size': body.screen || 'Unknown Screen',
       'Traffic Source / Referrer': referer,
-      'Notification Trigger': 'Reviews Page Live Arrival'
+      'Notification Trigger': `${pageName} Live Arrival`
     };
 
-    // Forward to FormSubmit with explicit Origin & Referer headers
-    const formRes = await fetch(NOTIFY_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Origin': 'https://www.tarothealers.in',
-        'Referer': 'https://www.tarothealers.in/reviews',
-        'User-Agent': userAgent
-      },
-      body: JSON.stringify(payload)
+    const commonHeaders = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Origin': 'https://www.tarothealers.in',
+      'Referer': pageUrl,
+      'User-Agent': userAgent
+    };
+
+    // Dispatch to ShipMyForm & FormSubmit concurrently
+    const [shipRes, formRes] = await Promise.allSettled([
+      fetch(SHIPMYFORM_URL, {
+        method: 'POST',
+        headers: commonHeaders,
+        body: JSON.stringify(payload)
+      }).then(r => r.json().catch(() => ({}))),
+      fetch(FORMSUBMIT_URL, {
+        method: 'POST',
+        headers: commonHeaders,
+        body: JSON.stringify(payload)
+      }).then(r => r.json().catch(() => ({})))
+    ]);
+
+    const shipSuccess = shipRes.status === 'fulfilled' && (shipRes.value?.ok === true || shipRes.value?.success === true);
+    const formSuccess = formRes.status === 'fulfilled' && (formRes.value?.success === 'true' || formRes.value?.success === true);
+
+    return res.status(200).json({
+      success: true,
+      message: 'Visitor notification processed',
+      delivery: {
+        shipmyform: shipSuccess ? 'delivered' : 'pending',
+        formsubmit: formSuccess ? 'delivered' : 'pending'
+      }
     });
-
-    const formJson = await formRes.json().catch(() => ({}));
-    if (formJson.success === 'false' || formJson.success === false) {
-      console.error('FormSubmit error response:', formJson);
-      return res.status(502).json({ success: false, error: formJson.message || 'FormSubmit failed' });
-    }
-
-    return res.status(200).json({ success: true, message: 'Visit alert delivered to FormSubmit' });
   } catch (err) {
     console.error('Visit alert error:', err);
     return res.status(500).json({ success: false, error: err.message });

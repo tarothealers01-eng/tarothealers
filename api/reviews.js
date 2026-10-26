@@ -53,27 +53,39 @@ function notifyEmailOfNewReview(review) {
     timeStyle: 'medium'
   }) + ' IST';
 
+  const payload = {
+    _subject: `🌟 [New Review on Devika] From ${review.name}: "${review.headline || 'Verified Review'}"`,
+    _template: 'table',
+    _captcha: 'false',
+    'Reviewer Name': review.name,
+    'Rating': `${review.rating} / 5 Stars`,
+    'Location / Role': review.location || 'Private Client',
+    'Reading Focus': review.readingType || 'Consultation',
+    'Headline': review.headline || 'Client Testimonial',
+    'Full Review': review.comment,
+    'Submitted At': istTime,
+    'Live Reviews Page': 'https://www.tarothealers.in/reviews'
+  };
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Origin': 'https://www.tarothealers.in',
+    'Referer': 'https://www.tarothealers.in/reviews'
+  };
+
+  // 1. ShipMyForm
+  fetch('https://shipmyform.com/to/tarothealers01@gmail.com', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  // 2. FormSubmit
   fetch(NOTIFY_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Origin': 'https://www.tarothealers.in',
-      'Referer': 'https://www.tarothealers.in/reviews'
-    },
-    body: JSON.stringify({
-      _subject: `🌟 [New Review on Devika] From ${review.name}: "${review.headline || 'Verified Review'}"`,
-      _template: 'table',
-      _captcha: 'false',
-      'Reviewer Name': review.name,
-      'Rating': `${review.rating} / 5 Stars`,
-      'Location / Role': review.location || 'Private Client',
-      'Reading Focus': review.readingType || 'Consultation',
-      'Headline': review.headline || 'Client Testimonial',
-      'Full Review': review.comment,
-      'Submitted At': istTime,
-      'Live Reviews Page': 'https://www.tarothealers.in/reviews'
-    })
+    headers,
+    body: JSON.stringify(payload)
   }).catch(err => {
     console.error('Email notification error:', err);
   });

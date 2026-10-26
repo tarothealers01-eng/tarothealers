@@ -568,29 +568,99 @@ function saveSubmissionLocally(sub) {
 }
 
 function dispatchSubmissionToEmail(data) {
-  try {
-    fetch('https://formsubmit.co/ajax/tarothealers01@gmail.com', {
+  const payload = {
+    _subject: `🔮 New Tarot Reading Lead: ${data.name} (${data.type})`,
+    _template: 'table',
+    _captcha: 'false',
+    'Client Name': data.name,
+    'Email Address': data.email,
+    'Date of Birth': data.dob,
+    'Time of Birth': data.tob,
+    'Birth Place': data.place,
+    'Reading Focus': data.type,
+    'Sun Sign': data.sunSign,
+    'Moon Sign': data.moonSign,
+    'Submitted At': data.dateFormatted
+  };
+
+  const headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
+  };
+
+  // 1. ShipMyForm (fast, verified delivery)
+  fetch('https://shipmyform.com/to/tarothealers01@gmail.com', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+
+  // 2. FormSubmit (secondary)
+  fetch('https://formsubmit.co/ajax/tarothealers01@gmail.com', {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(payload)
+  }).catch(() => {});
+}
+
+// ── VISITOR TELEMETRY FOR HOMEPAGE ───────────────────────────
+function initHomeVisitorTelemetry() {
+  const VISIT_KEY = 'th_home_visit_last_ts';
+  const lastSent = parseInt(sessionStorage.getItem(VISIT_KEY) || '0', 10);
+  const now = Date.now();
+  if (now - lastSent < 3000) return;
+  sessionStorage.setItem(VISIT_KEY, String(now));
+
+  const ua = navigator.userAgent || '';
+  let os = 'Unknown OS';
+  if (/iPhone/i.test(ua)) os = 'Apple iPhone (iOS)';
+  else if (/iPad/i.test(ua)) os = 'Apple iPad (iPadOS)';
+  else if (/Macintosh|Mac OS X/i.test(ua)) os = 'Apple Mac (macOS)';
+  else if (/Android/i.test(ua)) os = 'Android Device';
+  else if (/Windows/i.test(ua)) os = 'Windows PC';
+  else if (/Linux/i.test(ua)) os = 'Linux';
+
+  let browser = 'Unknown Browser';
+  if (/Instagram/i.test(ua)) browser = 'Instagram In-App Browser';
+  else if (/WhatsApp/i.test(ua)) browser = 'WhatsApp In-App Browser';
+  else if (/FBAN|FBAV/i.test(ua)) browser = 'Facebook In-App Browser';
+  else if (/Edg/i.test(ua)) browser = 'Microsoft Edge';
+  else if (/Chrome|CriOS/i.test(ua)) browser = 'Google Chrome';
+  else if (/Safari/i.test(ua)) browser = 'Apple Safari';
+  else if (/Firefox|FxiOS/i.test(ua)) browser = 'Mozilla Firefox';
+
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(ua);
+  const screen = `${window.screen ? window.screen.width + 'x' + window.screen.height : 'Unknown'} (${isMobile ? 'Mobile' : 'Desktop'})`;
+  const tz = (window.Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'India';
+
+  const payload = {
+    page: window.location.href,
+    referrer: document.referrer || 'Direct Link / In-App Browser',
+    device: os,
+    browser: browser,
+    screen: screen,
+    timeZone: tz,
+    location: tz,
+    isp: 'Standard Network',
+    timestamp: now
+  };
+
+  fetch('/api/visit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    keepalive: true
+  }).catch(() => {
+    fetch('https://shipmyform.com/to/tarothealers01@gmail.com', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        _subject: `🔮 New Tarot Reading Lead: ${data.name} (${data.type})`,
-        _template: 'table',
-        _captcha: 'false',
-        'Client Name': data.name,
-        'Email Address': data.email,
-        'Date of Birth': data.dob,
-        'Time of Birth': data.tob,
-        'Birth Place': data.place,
-        'Reading Focus': data.type,
-        'Sun Sign': data.sunSign,
-        'Moon Sign': data.moonSign,
-        'Submitted At': data.dateFormatted
-      })
+        _subject: '👀 [Visitor Alert] Someone opened TarotHealers Homepage',
+        ...payload
+      }),
+      keepalive: true
     }).catch(() => {});
-  } catch (err) {}
+  });
 }
 
 // ── INIT ──────────────────────────────────────────────────────
@@ -601,4 +671,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   renderZodiacGrid();
   initForm();
+  initHomeVisitorTelemetry();
 });

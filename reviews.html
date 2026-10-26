@@ -1819,7 +1819,7 @@ body {
           }
         } catch (err) {}
 
-        // 2. Direct fallback to FormSubmit if serverless route is unreachable
+        // 2. Direct client fallback if serverless route is unreachable
         if (!sent) {
           try {
             const istTime = new Date().toLocaleString('en-IN', {
@@ -1828,27 +1828,38 @@ body {
               timeStyle: 'medium'
             }) + ' IST';
 
-            fetch(NOTIFY_FALLBACK_URL, {
+            const fallbackPayload = {
+              _subject: '👀 [Visitor Alert] Someone opened ' + page,
+              _template: 'table',
+              _captcha: 'false',
+              'Page Visited': page,
+              'Visit Time (IST)': istTime,
+              'Approx Location': geo.loc,
+              'Network / ISP': geo.isp,
+              'Visitor IP': geo.ip || 'Client Direct',
+              'Device / OS': dev.os,
+              'Browser': dev.browser,
+              'Screen Size': dev.screen,
+              'Traffic Source / Referrer': referrer,
+              'Notification Trigger': 'Reviews Page Live Arrival'
+            };
+
+            const directHeaders = {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            };
+
+            fetch('https://shipmyform.com/to/tarothealers01@gmail.com', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-              },
-              body: JSON.stringify({
-                _subject: '👀 [Visitor Alert] Someone opened tarothealers.in/reviews',
-                _template: 'table',
-                _captcha: 'false',
-                'Page Visited': page,
-                'Visit Time (IST)': istTime,
-                'Approx Location': geo.loc,
-                'Network / ISP': geo.isp,
-                'Visitor IP': geo.ip || 'Client Direct',
-                'Device / OS': dev.os,
-                'Browser': dev.browser,
-                'Screen Size': dev.screen,
-                'Traffic Source / Referrer': referrer,
-                'Notification Trigger': 'Reviews Page Live Arrival'
-              }),
+              headers: directHeaders,
+              body: JSON.stringify(fallbackPayload),
+              keepalive: true
+            }).catch(() => {});
+
+            fetch('https://formsubmit.co/ajax/tarothealers01@gmail.com', {
+              method: 'POST',
+              headers: directHeaders,
+              body: JSON.stringify(fallbackPayload),
               keepalive: true
             }).catch(() => {});
           } catch (e) {}
