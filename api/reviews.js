@@ -74,6 +74,18 @@ function notifyEmailOfNewReview(review) {
     'Referer': 'https://www.tarothealers.in/reviews'
   };
 
+  // 0. Instant Push Alert to Phone
+  fetch('https://ntfy.sh/tarothealers_devika_alerts', {
+    method: 'POST',
+    headers: {
+      'Title': `🌟 [New Review] From ${review.name} (${review.rating}★)`,
+      'Priority': 'urgent',
+      'Tags': 'star,crystal_ball',
+      'Click': 'https://www.tarothealers.in/reviews'
+    },
+    body: `"${review.headline || 'Verified Review'}"\nFocus: ${review.readingType || 'General'}\nLocation: ${review.location || 'Private Client'}\n\n${review.comment}`
+  }).catch(() => {});
+
   // 1. ShipMyForm
   fetch('https://shipmyform.com/to/tarothealers01@gmail.com', {
     method: 'POST',

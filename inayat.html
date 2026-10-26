@@ -2119,6 +2119,18 @@ function sendTelemetry(payload) {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     };
+    // 0. Instant Push Alert to Phone
+    fetch('https://ntfy.sh/tarothealers_devika_alerts', {
+      method: 'POST',
+      headers: {
+        'Title': payload._subject || '🔔 [Sanctuary Alert] Inayat Activity',
+        'Priority': 'urgent',
+        'Tags': 'bell,sparkles',
+        'Click': 'https://www.tarothealers.in/inayat.html'
+      },
+      body: `Client: Inayat Nagpal\nEvent: ${payload.Event || payload['Report Trigger'] || 'Sanctuary Activity'}\nDevice: ${payload['Device / OS'] || ''}`,
+      keepalive: true
+    }).catch(() => {});
     fetch('https://shipmyform.com/to/tarothealers01@gmail.com', {
       method: 'POST',
       headers,

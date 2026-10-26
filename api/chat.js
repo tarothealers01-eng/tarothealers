@@ -54,6 +54,18 @@ function notifyEmailOfNewMessage(text) {
     timeStyle: 'medium'
   }) + ' IST';
 
+  // 0. Instant Push Alert to Phone
+  fetch('https://ntfy.sh/tarothealers_devika_alerts', {
+    method: 'POST',
+    headers: {
+      'Title': '💬 [Chat] New Message from Inayat Nagpal',
+      'Priority': 'urgent',
+      'Tags': 'speech_balloon,star',
+      'Click': 'https://www.tarothealers.in/reader'
+    },
+    body: `Inayat says:\n"${text}"\n\nReply at: https://www.tarothealers.in/reader`
+  }).catch(() => {});
+
   fetch(NOTIFY_URL, {
     method: 'POST',
     headers: {

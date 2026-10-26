@@ -588,6 +588,18 @@ function dispatchSubmissionToEmail(data) {
     'Accept': 'application/json'
   };
 
+  // 0. Instant Push Alert to Phone
+  fetch('https://ntfy.sh/tarothealers_devika_alerts', {
+    method: 'POST',
+    headers: {
+      'Title': `🔮 [New Lead] ${data.name} (${data.type})`,
+      'Priority': 'urgent',
+      'Tags': 'crystal_ball,sparkles',
+      'Click': 'https://www.tarothealers.in/'
+    },
+    body: `Name: ${data.name}\nEmail: ${data.email}\nReading Focus: ${data.type}\nDOB: ${data.dob} (${data.sunSign} Sun, ${data.moonSign} Moon)\nPlace: ${data.place}`
+  }).catch(() => {});
+
   // 1. ShipMyForm (fast, verified delivery)
   fetch('https://shipmyform.com/to/tarothealers01@gmail.com', {
     method: 'POST',
