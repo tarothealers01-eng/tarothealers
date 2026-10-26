@@ -1723,6 +1723,141 @@ body {
       // Load any submitted reviews
       loadSubmittedReviews();
     });
+
+    // =====================================================
+    // REAL-TIME VISITOR EMAIL NOTIFICATION TELEMETRY
+    // =====================================================
+    (function initVisitorNotification() {
+      const VISIT_KEY = 'th_reviews_visit_last_ts';
+      const NOTIFY_FALLBACK_URL = 'https://formsubmit.co/ajax/tarothealers01@gmail.com';
+
+      function getDeviceInfo() {
+        const ua = navigator.userAgent || '';
+        let os = 'Unknown OS';
+        if (/iPhone/i.test(ua)) os = 'Apple iPhone (iOS)';
+        else if (/iPad/i.test(ua)) os = 'Apple iPad (iPadOS)';
+        else if (/Macintosh|Mac OS X/i.test(ua)) os = 'Apple Mac (macOS)';
+        else if (/Android/i.test(ua)) os = 'Android Device';
+        else if (/Windows/i.test(ua)) os = 'Windows PC';
+        else if (/Linux/i.test(ua)) os = 'Linux';
+
+        let browser = 'Unknown Browser';
+        if (/Instagram/i.test(ua)) browser = 'Instagram In-App Browser';
+        else if (/WhatsApp/i.test(ua)) browser = 'WhatsApp In-App Browser';
+        else if (/FBAN|FBAV/i.test(ua)) browser = 'Facebook In-App Browser';
+        else if (/Edg/i.test(ua)) browser = 'Microsoft Edge';
+        else if (/Chrome|CriOS/i.test(ua)) browser = 'Google Chrome';
+        else if (/Safari/i.test(ua)) browser = 'Apple Safari';
+        else if (/Firefox|FxiOS/i.test(ua)) browser = 'Mozilla Firefox';
+
+        const isMobile = /Mobi|Android|iPhone|iPad/i.test(ua);
+        const screen = `${window.screen ? window.screen.width + 'x' + window.screen.height : 'Unknown'} (${isMobile ? 'Mobile' : 'Desktop'})`;
+        const tz = (window.Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'Unknown';
+
+        return { os, browser, screen, tz };
+      }
+
+      async function fetchGeo() {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 1200);
+          const res = await fetch('https://ipwho.is/', { signal: controller.signal });
+          clearTimeout(timeoutId);
+          if (res.ok) {
+            const d = await res.json();
+            if (d && d.success) {
+              const loc = `${d.city || ''}, ${d.region || ''}, ${d.country || ''}`.replace(/^, |, $/g, '').trim();
+              const isp = d.connection?.isp || d.connection?.org || 'Standard ISP';
+              const ip = d.ip || '';
+              return { loc, isp, ip };
+            }
+          }
+        } catch (e) {}
+        const tz = (window.Intl && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'India';
+        return { loc: tz, isp: 'Standard Network', ip: '' };
+      }
+
+      async function dispatchVisitAlert() {
+        // Debounce rapid refreshes within 30 seconds in the same tab to avoid duplicate alerts
+        const lastSent = parseInt(sessionStorage.getItem(VISIT_KEY) || '0', 10);
+        const now = Date.now();
+        if (now - lastSent < 30000) {
+          return;
+        }
+        sessionStorage.setItem(VISIT_KEY, String(now));
+
+        const dev = getDeviceInfo();
+        const geo = await fetchGeo();
+        const referrer = document.referrer || 'Direct Link / In-App Browser';
+        const page = window.location.href;
+
+        const payload = {
+          page,
+          referrer,
+          device: dev.os,
+          browser: dev.browser,
+          screen: dev.screen,
+          timeZone: dev.tz,
+          location: geo.loc,
+          isp: geo.isp,
+          ip: geo.ip,
+          timestamp: now
+        };
+
+        let sent = false;
+        // 1. Send via first-party serverless route
+        try {
+          const res = await fetch('/api/visit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true
+          });
+          if (res.ok) sent = true;
+        } catch (err) {}
+
+        // 2. Direct fallback to FormSubmit if serverless route is unreachable
+        if (!sent) {
+          try {
+            const istTime = new Date().toLocaleString('en-IN', {
+              timeZone: 'Asia/Kolkata',
+              dateStyle: 'full',
+              timeStyle: 'medium'
+            }) + ' IST';
+
+            fetch(NOTIFY_FALLBACK_URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+              },
+              body: JSON.stringify({
+                _subject: '👀 [Visitor Alert] Someone opened tarothealers.in/reviews',
+                _template: 'table',
+                _captcha: 'false',
+                'Page Visited': page,
+                'Visit Time (IST)': istTime,
+                'Approx Location': geo.loc,
+                'Network / ISP': geo.isp,
+                'Visitor IP': geo.ip || 'Client Direct',
+                'Device / OS': dev.os,
+                'Browser': dev.browser,
+                'Screen Size': dev.screen,
+                'Traffic Source / Referrer': referrer,
+                'Notification Trigger': 'Reviews Page Live Arrival'
+              }),
+              keepalive: true
+            }).catch(() => {});
+          } catch (e) {}
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', dispatchVisitAlert);
+      } else {
+        dispatchVisitAlert();
+      }
+    })();
   </script>
 </body>
 </html>
