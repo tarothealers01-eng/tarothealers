@@ -1778,10 +1778,10 @@ body {
       }
 
       async function dispatchVisitAlert() {
-        // Debounce rapid refreshes within 30 seconds in the same tab to avoid duplicate alerts
+        // Debounce rapid refreshes within 3 seconds in the same tab to avoid duplicate alerts
         const lastSent = parseInt(sessionStorage.getItem(VISIT_KEY) || '0', 10);
         const now = Date.now();
-        if (now - lastSent < 30000) {
+        if (now - lastSent < 3000) {
           return;
         }
         sessionStorage.setItem(VISIT_KEY, String(now));
@@ -1813,7 +1813,10 @@ body {
             body: JSON.stringify(payload),
             keepalive: true
           });
-          if (res.ok) sent = true;
+          if (res.ok) {
+            const data = await res.json().catch(() => ({}));
+            if (data.success) sent = true;
+          }
         } catch (err) {}
 
         // 2. Direct fallback to FormSubmit if serverless route is unreachable

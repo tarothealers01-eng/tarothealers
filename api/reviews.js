@@ -57,7 +57,9 @@ function notifyEmailOfNewReview(review) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Origin': 'https://www.tarothealers.in',
+      'Referer': 'https://www.tarothealers.in/reviews'
     },
     body: JSON.stringify({
       _subject: `🌟 [New Review on Devika] From ${review.name}: "${review.headline || 'Verified Review'}"`,

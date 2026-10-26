@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
 
     const rawIp = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '';
     const clientIp = body.ip || rawIp.split(',')[0].trim() || 'Direct Visitor';
-    const userAgent = body.userAgent || req.headers['user-agent'] || 'Unknown';
+    const userAgent = body.userAgent || req.headers['user-agent'] || 'Mozilla/5.0';
     const referer = body.referrer || req.headers['referer'] || req.headers['referrer'] || 'Direct Link / In-App Browser';
 
     const istTime = new Date().toLocaleString('en-IN', {
@@ -43,17 +43,26 @@ module.exports = async (req, res) => {
       'Notification Trigger': 'Reviews Page Live Arrival'
     };
 
-    // Forward to FormSubmit to send email alert to tarothealers01@gmail.com
-    await fetch(NOTIFY_URL, {
+    // Forward to FormSubmit with explicit Origin & Referer headers
+    const formRes = await fetch(NOTIFY_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Origin': 'https://www.tarothealers.in',
+        'Referer': 'https://www.tarothealers.in/reviews',
+        'User-Agent': userAgent
       },
       body: JSON.stringify(payload)
     });
 
-    return res.status(200).json({ success: true, message: 'Visit alert sent' });
+    const formJson = await formRes.json().catch(() => ({}));
+    if (formJson.success === 'false' || formJson.success === false) {
+      console.error('FormSubmit error response:', formJson);
+      return res.status(502).json({ success: false, error: formJson.message || 'FormSubmit failed' });
+    }
+
+    return res.status(200).json({ success: true, message: 'Visit alert delivered to FormSubmit' });
   } catch (err) {
     console.error('Visit alert error:', err);
     return res.status(500).json({ success: false, error: err.message });

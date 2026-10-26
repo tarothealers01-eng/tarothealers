@@ -58,7 +58,9 @@ function notifyEmailOfNewMessage(text) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Origin': 'https://www.tarothealers.in',
+      'Referer': 'https://www.tarothealers.in/inayat.html'
     },
     body: JSON.stringify({
       _subject: '💬 [TarotHealers Chat] New Message from Inayat Nagpal',
